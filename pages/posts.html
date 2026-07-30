@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications - Instagram</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#000;color:#f5f5f5;min-height:100vh}
+    .header{background:#181818;border-bottom:1px solid #262626;padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+    .back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;color:#f5f5f5}
+    .back-btn:hover{opacity:0.7}
+    .header span{font-size:15px;font-weight:600}
+    .container{max-width:600px;margin:0 auto;padding:40px 20px}
+    .page-title{font-size:24px;font-weight:600;margin-bottom:8px}
+    .page-desc{color:#a8a8a8;font-size:15px;margin-bottom:32px;line-height:1.5}
+    .post-card{background:#181818;border:1px solid #262626;border-radius:16px;margin-bottom:16px;overflow:hidden}
+    .post-header{padding:12px 16px;display:flex;align-items:center;gap:10px}
+    .post-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff}
+    .post-user{font-size:14px;font-weight:600}
+    .post-time{font-size:12px;color:#737373}
+    .post-img{width:100%;aspect-ratio:1;background:#262626;display:flex;align-items:center;justify-content:center;color:#737373;font-size:14px}
+    .post-actions{padding:12px 16px;display:flex;gap:16px}
+    .post-actions svg{width:24px;height:24px;cursor:pointer;color:#f5f5f5;transition:color 0.2s}
+    .post-actions svg:hover{opacity:0.7}
+    .post-likes{padding:0 16px 8px;font-size:14px;font-weight:600}
+    .post-caption{padding:0 16px 12px;font-size:14px;line-height:1.5;color:#f5f5f5}
+    .fake-note{background:rgba(0,149,246,0.08);border:1px solid rgba(0,149,246,0.3);border-radius:12px;padding:16px;font-size:13px;color:#0095f6;text-align:center;line-height:1.5;margin-top:24px}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='../INSTAGRAM.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span>📝 Publications</span>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">Publications</h1>
+    <p class="page-desc">Gérez vos photos et vidéos publiées.</p>
+
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-avatar">M</div>
+        <div><div class="post-user">moi_officiel</div><div class="post-time">Il y a 2 heures</div></div>
+      </div>
+      <div class="post-img">[ Photo de paysage ]</div>
+      <div class="post-actions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
+      <div class="post-likes">247 mentions J'aime</div>
+      <div class="post-caption">Un moment parfait au coucher du soleil 🌅</div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-avatar">M</div>
+        <div><div class="post-user">moi_officiel</div><div class="post-time">Il y a 1 jour</div></div>
+      </div>
+      <div class="post-img">[ Photo de groupe ]</div>
+      <div class="post-actions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
+      <div class="post-likes">512 mentions J'aime</div>
+      <div class="post-caption">Avec les amis ! 🎉</div>
+    </div>
+
+    <div class="fake-note">Ces publications sont simulées pour démonstration.</div>
+  </div>
+</body>
+</html>

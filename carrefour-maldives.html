@@ -1,0 +1,891 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Carrefour vous offre un voyage de rêve aux Maldives ! Partagez votre lien et gagnez un séjour exceptionnel pour 2 personnes.">
+    <meta name="keywords" content="Carrefour, concours, Maldives, voyage, gagner, parrainage">
+    <meta property="og:title" content="Concours Carrefour - Voyage aux Maldives">
+    <meta property="og:description" content="Partagez et gagnez un séjour de rêve aux Maldives pour 2 personnes !">
+    <meta property="og:type" content="website">
+    <title>Concours Carrefour – Partagez et Gagnez un Voyage aux Maldives</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --carrefour-blue: #004B9B;
+            --carrefour-red: #E30613;
+            --carrefour-dark: #003366;
+            --maldives-turquoise: #00C9B7;
+            --maldives-light: #40E0D0;
+            --maldives-deep: #008B8B;
+            --sand: #F5E6D3;
+            --white: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-600: #4B5563;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--gray-800); background: var(--white); overflow-x: hidden; }
+        img { max-width: 100%; height: auto; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 80px 0; }
+        .section-title { font-size: 36px; font-weight: 800; text-align: center; margin-bottom: 12px; color: var(--gray-900); line-height: 1.2; }
+        .section-subtitle { font-size: 16px; color: var(--gray-600); text-align: center; max-width: 600px; margin: 0 auto 50px; line-height: 1.6; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all .3s; font-family: inherit; }
+        .btn-primary { background: var(--carrefour-red); color: #fff; box-shadow: 0 4px 15px rgba(227,6,19,0.3); }
+        .btn-primary:hover { background: #c70512; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(227,6,19,0.4); }
+        .btn-secondary { background: rgba(255,255,255,0.2); color: #fff; border: 2px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { background: #fff; color: var(--carrefour-blue); border-color: #fff; }
+        .btn-maldives { background: var(--maldives-turquoise); color: #fff; box-shadow: 0 4px 15px rgba(0,201,183,0.3); }
+        .btn-maldives:hover { background: var(--maldives-deep); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,201,183,0.4); }
+        .btn-blue { background: var(--carrefour-blue); color: #fff; box-shadow: 0 4px 15px rgba(0,75,155,0.3); }
+        .btn-blue:hover { background: var(--carrefour-dark); transform: translateY(-2px); }
+
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 16px 0; transition: all .3s; }
+        .navbar.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); box-shadow: var(--shadow-md); padding: 10px 0; }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; }
+        .nav-logo svg { height: 40px; }
+        .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+        .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); transition: color .2s; }
+        .navbar.scrolled .nav-links a { color: var(--gray-800); }
+        .nav-links a:hover { color: var(--carrefour-red); }
+        .nav-cta { background: var(--carrefour-red); color: #fff !important; padding: 8px 20px; border-radius: 50px; font-weight: 600; }
+        .nav-cta:hover { background: #c70512; }
+        .nav-mobile { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+        .navbar.scrolled .nav-mobile { color: var(--gray-800); }
+
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,75,155,0.85), rgba(0,51,102,0.7)), url('https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1920&q=80') center/cover; }
+        .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+        .hero-particles span { position: absolute; width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: float 6s infinite ease-in-out; }
+        @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.3; } 50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; } }
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 800px; margin: 0 auto; padding: 120px 20px 80px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 24px; }
+        .hero-badge i { color: var(--maldives-turquoise); }
+        .hero h1 { font-size: 52px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; text-shadow: 0 2px 20px rgba(0,0,0,0.2); }
+        .hero h1 .highlight { background: linear-gradient(135deg, var(--maldives-turquoise), var(--maldives-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 36px; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .hero-wave { position: absolute; bottom: -2px; left: 0; right: 0; }
+        .hero-wave svg { display: block; width: 100%; height: 80px; }
+
+        .counters-bar { background: var(--white); margin-top: -40px; position: relative; z-index: 10; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); padding: 30px 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+        .counter-item { text-align: center; }
+        .counter-item i { font-size: 24px; color: var(--carrefour-blue); margin-bottom: 8px; }
+        .counter-value { font-size: 32px; font-weight: 800; color: var(--gray-900); font-variant-numeric: tabular-nums; }
+        .counter-label { font-size: 12px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+        .trip-section { background: linear-gradient(180deg, var(--gray-50), var(--white)); }
+        .trip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .trip-card { background: var(--white); border-radius: var(--radius); padding: 30px 24px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); transition: all .3s; position: relative; overflow: hidden; }
+        .trip-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--carrefour-blue), var(--maldives-turquoise)); transform: scaleX(0); transition: transform .3s; }
+        .trip-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+        .trip-card:hover::before { transform: scaleX(1); }
+        .trip-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
+        .trip-icon.blue { background: rgba(0,75,155,0.08); color: var(--carrefour-blue); }
+        .trip-icon.red { background: rgba(227,6,19,0.08); color: var(--carrefour-red); }
+        .trip-icon.turquoise { background: rgba(0,201,183,0.08); color: var(--maldives-turquoise); }
+        .trip-icon.gold { background: rgba(245,158,11,0.08); color: #F59E0B; }
+        .trip-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--gray-900); }
+        .trip-card p { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+        .trip-value { margin-top: 30px; text-align: center; }
+        .trip-value .price { font-size: 42px; font-weight: 900; background: linear-gradient(135deg, var(--carrefour-blue), var(--maldives-turquoise)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .trip-value p { font-size: 14px; color: var(--gray-600); }
+
+        .share-section { background: linear-gradient(135deg, var(--carrefour-blue), var(--carrefour-dark)); color: #fff; position: relative; overflow: hidden; }
+        .share-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,201,183,0.15), transparent 70%); border-radius: 50%; }
+        .share-section::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(227,6,19,0.1), transparent 70%); border-radius: 50%; }
+        .share-section .section-title { color: #fff; }
+        .share-section .section-subtitle { color: rgba(255,255,255,0.7); }
+        .share-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; z-index: 1; margin-bottom: 40px; }
+        .share-step { text-align: center; padding: 30px 20px; }
+        .share-step-num { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; margin: 0 auto 16px; backdrop-filter: blur(10px); }
+        .share-step h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .share-step p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+        .share-card { max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-lg); padding: 40px; text-align: center; position: relative; z-index: 1; }
+        .share-card-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--maldives-turquoise), var(--maldives-light)); display: flex; align-items: center; justify-content: center; font-size: 36px; color: #fff; margin: 0 auto 20px; box-shadow: 0 8px 30px rgba(0,201,183,0.3); }
+        .share-card h3 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .share-card p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.6; }
+        .share-link-box { display: flex; max-width: 550px; margin: 0 auto 24px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; overflow: hidden; }
+        .share-link-box input { flex: 1; background: none; border: none; outline: none; color: #fff; padding: 14px 20px; font-size: 13px; font-family: inherit; min-width: 0; }
+        .share-link-box input::placeholder { color: rgba(255,255,255,0.5); }
+        .share-link-box button { background: var(--carrefour-red); color: #fff; border: none; padding: 14px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .2s; white-space: nowrap; }
+        .share-link-box button:hover { background: #c70512; }
+        .share-stats { display: flex; gap: 30px; justify-content: center; margin-top: 20px; }
+        .share-stat { text-align: center; }
+        .share-stat-value { font-size: 28px; font-weight: 800; color: var(--maldives-turquoise); }
+        .share-stat-label { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+        .share-social { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+        .share-social a { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; transition: all .3s; }
+        .share-social a:hover { transform: translateY(-3px); }
+        .share-social .whatsapp { background: #25D366; }
+        .share-social .facebook { background: #1877F2; }
+        .share-social .twitter { background: #1DA1F2; }
+        .share-social .telegram { background: #0088cc; }
+        .share-social .email { background: var(--carrefour-red); }
+        .share-social .copy { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); }
+        .share-social .copy:hover { background: rgba(255,255,255,0.25); }
+        .share-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--maldives-turquoise); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; box-shadow: 0 8px 30px rgba(0,201,183,0.4); z-index: 9999; opacity: 0; transition: opacity .3s; pointer-events: none; }
+        .share-toast.show { opacity: 1; }
+
+        .how-section { background: var(--gray-50); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .step-card { text-align: center; padding: 30px 20px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); transition: all .3s; }
+        .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .step-number { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--carrefour-blue), var(--maldives-turquoise)); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #fff; margin: 0 auto 16px; }
+        .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--gray-900); }
+        .step-card p { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+
+        .passport-section { background: var(--white); }
+        .passport-card { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, var(--carrefour-blue), var(--carrefour-dark)); border-radius: var(--radius-lg); padding: 40px; color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow-xl); }
+        .passport-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(0,201,183,0.1); border-radius: 50%; }
+        .passport-card::after { content: ''; position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: rgba(227,6,19,0.08); border-radius: 50%; }
+        .passport-header { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; position: relative; z-index: 1; }
+        .passport-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; border: 1px solid rgba(255,255,255,0.15); }
+        .passport-header h3 { font-size: 22px; font-weight: 700; }
+        .passport-header p { font-size: 13px; color: rgba(255,255,255,0.7); }
+        .stamp-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; position: relative; z-index: 1; }
+        .stamp { background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 8px; text-align: center; transition: all .3s; }
+        .stamp.earned { background: rgba(0,201,183,0.2); border: 2px solid var(--maldives-turquoise); border-style: solid; }
+        .stamp i { font-size: 22px; margin-bottom: 6px; display: block; color: rgba(255,255,255,0.5); }
+        .stamp.earned i { color: var(--maldives-turquoise); }
+        .stamp .day { font-size: 11px; font-weight: 600; display: block; margin-bottom: 2px; }
+        .stamp .label { font-size: 10px; color: rgba(255,255,255,0.6); }
+        .passport-progress { position: relative; z-index: 1; }
+        .passport-progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: rgba(255,255,255,0.8); }
+        .passport-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.15); border-radius: 8px; overflow: hidden; }
+        .passport-fill { height: 100%; background: linear-gradient(90deg, var(--maldives-turquoise), var(--maldives-light)); border-radius: 8px; transition: width 1.5s ease; }
+
+        .wheel-section { background: var(--gray-50); text-align: center; }
+        .wheel-container { position: relative; width: 320px; height: 320px; margin: 0 auto 30px; }
+        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 28px solid var(--carrefour-red); z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: var(--carrefour-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; z-index: 5; box-shadow: var(--shadow-md); cursor: pointer; border: 3px solid var(--white); }
+        .wheel-result { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 10px; min-height: 28px; }
+        .wheel-sub { font-size: 13px; color: var(--gray-600); }
+
+        .testimonials-section { background: var(--white); }
+        .testimonial-track { display: flex; gap: 24px; overflow: hidden; padding: 10px 0; }
+        .testimonial-card { min-width: 340px; background: var(--gray-50); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
+        .testimonial-stars { color: #F59E0B; font-size: 14px; margin-bottom: 12px; }
+        .testimonial-text { font-size: 14px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--carrefour-blue); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; }
+        .testimonial-name { font-size: 14px; font-weight: 600; }
+        .testimonial-date { font-size: 12px; color: var(--gray-600); }
+
+        .faq-section { background: var(--gray-50); }
+        .faq-list { max-width: 700px; margin: 0 auto; }
+        .faq-item { border: 1px solid var(--gray-100); border-radius: var(--radius-sm); margin-bottom: 12px; overflow: hidden; transition: all .3s; background: var(--white); }
+        .faq-item.active { border-color: var(--carrefour-blue); box-shadow: 0 2px 10px rgba(0,75,155,0.08); }
+        .faq-question { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--gray-800); background: var(--white); transition: all .2s; }
+        .faq-question:hover { color: var(--carrefour-blue); }
+        .faq-question i { font-size: 14px; color: var(--gray-600); transition: transform .3s; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--carrefour-blue); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+        .faq-answer-inner { padding: 0 20px 18px; font-size: 14px; color: var(--gray-600); line-height: 1.7; }
+
+        .footer { background: var(--gray-900); color: #fff; padding: 60px 0 0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-top: 12px; }
+        .footer-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 13px; color: rgba(255,255,255,0.6); transition: color .2s; }
+        .footer-links a:hover { color: var(--maldives-turquoise); }
+        .footer-social { display: flex; gap: 10px; margin-top: 16px; }
+        .footer-social a { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); font-size: 14px; transition: all .2s; }
+        .footer-social a:hover { background: var(--carrefour-red); color: #fff; }
+        .footer-bottom { padding: 20px 0; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.4); flex-wrap: wrap; gap: 10px; }
+
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 36px; }
+            .counters-bar { grid-template-columns: repeat(2, 1fr); margin: -30px 20px 0; }
+            .trip-grid { grid-template-columns: repeat(2, 1fr); }
+            .share-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .nav-mobile { display: block; }
+        }
+        @media (max-width: 600px) {
+            .section { padding: 60px 0; }
+            .section-title { font-size: 26px; }
+            .hero h1 { font-size: 28px; }
+            .hero p { font-size: 15px; }
+            .counters-bar { grid-template-columns: repeat(2, 1fr); padding: 20px; }
+            .counter-value { font-size: 24px; }
+            .trip-grid { grid-template-columns: 1fr; }
+            .share-card { padding: 24px; }
+            .share-link-box { flex-direction: column; border-radius: 16px; }
+            .share-link-box input { text-align: center; }
+            .share-link-box button { border-radius: 0 0 16px 16px; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .stamp-grid { grid-template-columns: repeat(3, 1fr); }
+            .passport-card { padding: 24px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .testimonial-card { min-width: 280px; }
+            .wheel-container { width: 260px; height: 260px; }
+            .share-stats { flex-wrap: wrap; gap: 16px; }
+        }
+
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-size: 18px; color: #fff; font-weight: 500; }
+        .mobile-menu .close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#" class="nav-logo">
+            <svg viewBox="0 0 24 16" width="44" height="30" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                    <path fill="#FD0202" d="M6.785.093.514 6.529C.2 6.812 0 7.143 0 7.616c0 .472.2.805.514 1.089l6.27 6.434c.042.044.08.062.113.062.06 0 .1-.059.099-.125l-.055-.125c-1.472-1.94-2.544-4.166-2.544-7.311 0-3.148 1.072-5.417 2.544-7.359a.189.189 0 0 0 .055-.124c.001-.069-.039-.124-.099-.124-.033 0-.071.017-.112.06"/>
+                    <path fill="#1E5BC6" d="M11.971 0C9.407 0 8.405 3.594 8.405 7.877c0 4.286 1.002 7.83 3.566 7.83 1.54 0 2.85-.891 2.856-1.623a.614.614 0 0 0-.198-.448c-.73-.696-1.015-1.393-1.017-2.007-.005-1.174 1.024-2.048 1.973-2.048 1.305 0 2.074 1.013 2.074 2.327 0 1.244-.536 2.28-1.119 3.11l-.033.105c0 .065.04.118.098.118.034 0 .075-.018.12-.063l6.552-6.263c.327-.278.536-.601.536-1.06 0-.46-.21-.784-.536-1.06L16.725.53c-.045-.043-.086-.062-.12-.062-.06 0-.098.053-.098.118l.033.106c.583.828 1.119 1.866 1.119 3.109 0 1.312-.77 2.327-2.074 2.327-.949 0-1.978-.874-1.973-2.047.002-.614.287-1.311 1.017-2.008a.614.614 0 0 0 .198-.448C14.822.892 13.51 0 11.97 0"/>
+                </g>
+            </svg>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#voyage">Le Voyage</a></li>
+            <li><a href="#partager">Partager</a></li>
+            <li><a href="#comment">Comment gagner</a></li>
+            <li><a href="#passeport">Passeport</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#partager" class="nav-cta">Gagner maintenant</a></li>
+        </ul>
+        <button class="nav-mobile" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <a href="#voyage" onclick="toggleMobileMenu()">Le Voyage</a>
+    <a href="#partager" onclick="toggleMobileMenu()">Partager</a>
+    <a href="#comment" onclick="toggleMobileMenu()">Comment gagner</a>
+    <a href="#passeport" onclick="toggleMobileMenu()">Passeport</a>
+    <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+    <a href="#partager" class="btn btn-primary" onclick="toggleMobileMenu()">Gagner maintenant</a>
+</div>
+
+<section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+        <div class="hero-badge"><i class="fas fa-gift"></i> Concours exclusif Carrefour</div>
+        <h1>🌴 Partagez et <span class="highlight">Gagnez un Voyage</span> aux Maldives !</h1>
+        <p>Partagez votre lien personnel. Chaque personne qui vote via votre lien vous rapproche du voyage de rêve aux Maldives pour 2 personnes.</p>
+        <div class="hero-buttons">
+            <a href="#partager" class="btn btn-primary"><i class="fas fa-share-alt"></i> Générer mon lien</a>
+            <a href="#" class="btn btn-maldives" id="heroVoteBtn"><i class="fas fa-vote-yea"></i> Voter maintenant</a>
+            <a href="#voyage" class="btn btn-secondary"><i class="fas fa-compass"></i> Découvrir le concours</a>
+        </div>
+    </div>
+    <div class="hero-wave">
+        <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+            <path d="M0 40 C360 80 720 0 1080 40 C1260 60 1380 50 1440 40 L1440 80 L0 80 Z" fill="#F9FAFB"/>
+        </svg>
+    </div>
+</section>
+
+<div class="container">
+    <div class="counters-bar" id="countersBar">
+        <div class="counter-item">
+            <i class="fas fa-users"></i>
+            <div class="counter-value" id="counterParticipants">12 847</div>
+            <div class="counter-label">Participants</div>
+        </div>
+        <div class="counter-item">
+            <i class="fas fa-share-alt"></i>
+            <div class="counter-value" id="counterShares">45 612</div>
+            <div class="counter-label">Liens partagés</div>
+        </div>
+        <div class="counter-item">
+            <i class="fas fa-clock"></i>
+            <div class="counter-value" id="counterTime">15j 08h 23m</div>
+            <div class="counter-label">Temps restant</div>
+        </div>
+        <div class="counter-item">
+            <i class="fas fa-trophy"></i>
+            <div class="counter-value">6 000&euro;</div>
+            <div class="counter-label">Valeur du lot</div>
+        </div>
+    </div>
+</div>
+
+<section class="section trip-section" id="voyage">
+    <div class="container">
+        <h2 class="section-title">🌴 Le Voyage de Rêve</h2>
+        <p class="section-subtitle">Un séjour inoubliable aux Maldives, le paradis sur Terre, vous attend.</p>
+        <div class="trip-grid">
+            <div class="trip-card">
+                <div class="trip-icon blue"><i class="fas fa-plane"></i></div>
+                <h3>Vol aller-retour</h3>
+                <p>Pour 2 personnes en classe économique premium depuis Paris</p>
+            </div>
+            <div class="trip-card">
+                <div class="trip-icon turquoise"><i class="fas fa-umbrella-beach"></i></div>
+                <h3>Séjour de 7 nuits</h3>
+                <p>Dans un resort de luxe sur une île privée aux eaux turquoises</p>
+            </div>
+            <div class="trip-card">
+                <div class="trip-icon gold"><i class="fas fa-hotel"></i></div>
+                <h3>Hôtel 5 étoiles</h3>
+                <p>Bungalow sur pilotis avec vue directe sur l’océan Indien</p>
+            </div>
+            <div class="trip-card">
+                <div class="trip-icon red"><i class="fas fa-coffee"></i></div>
+                <h3>Petit-déjeuner inclus</h3>
+                <p>Buffet gastronomique avec spécialités locales chaque matin</p>
+            </div>
+            <div class="trip-card">
+                <div class="trip-icon blue"><i class="fas fa-ship"></i></div>
+                <h3>Transferts inclus</h3>
+                <p>Transfert en hydravion depuis Malé vers votre île privée</p>
+            </div>
+            <div class="trip-card">
+                <div class="trip-icon turquoise"><i class="fas fa-water"></i></div>
+                <h3>Excursions exclusives</h3>
+                <p>Randonnée sous-marine, coucher de soleil en bateau et plus encore</p>
+            </div>
+        </div>
+        <div class="trip-value">
+            <div class="price">6 000&euro;</div>
+            <p>Valeur estimée du lot pour 2 personnes</p>
+        </div>
+    </div>
+</section>
+
+<section class="section share-section" id="partager">
+    <div class="container">
+        <h2 class="section-title">📢 Partagez et Gagnez</h2>
+        <p class="section-subtitle">Plus vous partagez, plus vous avez de chances de gagner le voyage aux Maldives !</p>
+        <div class="share-grid">
+            <div class="share-step">
+                <div class="share-step-num">1</div>
+                <h3>Générez votre lien</h3>
+                <p>Cliquez sur le bouton ci-dessous pour créer votre lien unique de parrainage.</p>
+            </div>
+            <div class="share-step">
+                <div class="share-step-num">2</div>
+                <h3>Partagez partout</h3>
+                <p>Envoyez votre lien à vos amis, famille, sur les réseaux sociaux, par message...</p>
+            </div>
+            <div class="share-step">
+                <div class="share-step-num">3</div>
+                <h3>Vous gagnez !</h3>
+                <p>Chaque vote via votre lien vous donne une chance de gagner le voyage de rêve aux Maldives.</p>
+            </div>
+        </div>
+        <div class="share-card">
+            <div class="share-card-icon"><i class="fas fa-link"></i></div>
+            <h3>Votre Lien Personnel</h3>
+            <p>Partagez ce lien avec vos amis. Chaque personne qui vote via votre lien augmente vos chances de gagner !</p>
+            <div class="share-link-box">
+                <input type="text" id="shareLink" value="" readonly>
+                <button onclick="copyShareLink()"><i class="fas fa-copy"></i> Copier</button>
+            </div>
+            <div class="share-social">
+                <a class="whatsapp" onclick="shareWhatsApp()" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a class="facebook" onclick="shareFacebook()" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a class="twitter" onclick="shareTwitter()" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a class="telegram" onclick="shareTelegram()" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a class="email" onclick="shareEmail()" title="Email"><i class="fas fa-envelope"></i></a>
+                <a class="copy" onclick="copyShareLink()" title="Copier"><i class="fas fa-link"></i></a>
+            </div>
+            <div class="share-stats">
+                <div class="share-stat">
+                    <div class="share-stat-value" id="myVotes">0</div>
+                    <div class="share-stat-label">Votes reçus</div>
+                </div>
+                <div class="share-stat">
+                    <div class="share-stat-value" id="myRank">#--</div>
+                    <div class="share-stat-label">Votre rang</div>
+                </div>
+                <div class="share-stat">
+                    <div class="share-stat-value" id="myChances">+0</div>
+                    <div class="share-stat-label">Chances gagnées</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section how-section" id="comment">
+    <div class="container">
+        <h2 class="section-title">Comment Gagner ?</h2>
+        <p class="section-subtitle">Suivez ces étapes simples pour maximiser vos chances.</p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Partagez votre lien</h3>
+                <p>Générez et envoyez votre lien unique à un maximum de personnes.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Vos amis votent</h3>
+                <p>Quand ils cliquent sur votre lien et votent, votre score augmente.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Revenez chaque jour</h3>
+                <p>Partagez à nouveau chaque jour pour cumuler encore plus de chances.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Gagnez le voyage</h3>
+                <p>Le participant avec le plus de votes reçus remporte le voyage aux Maldives !</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section passport-section" id="passeport">
+    <div class="container">
+        <h2 class="section-title">🛂 Passeport Maldives Carrefour</h2>
+        <p class="section-subtitle">Chaque partage ajoute un tampon à votre passeport virtuel.</p>
+        <div class="passport-card">
+            <div class="passport-header">
+                <div class="passport-icon">🌴</div>
+                <div>
+                    <h3>Mon Passeport Maldives</h3>
+                    <p>Continuez à partager pour débloquer des récompenses</p>
+                </div>
+            </div>
+            <div class="stamp-grid">
+                <div class="stamp earned"><i class="fas fa-compass"></i><span class="day">Jour 3</span><span class="label">Explorateur</span></div>
+                <div class="stamp earned"><i class="fas fa-ticket-alt"></i><span class="day">Jour 7</span><span class="label">Ticket bonus</span></div>
+                <div class="stamp"><i class="fas fa-random"></i><span class="day">Jour 15</span><span class="label">Double chance</span></div>
+                <div class="stamp"><i class="fas fa-gift"></i><span class="day">Jour 21</span><span class="label">Coffre surprise</span></div>
+                <div class="stamp"><i class="fas fa-crown"></i><span class="day">Jour 30</span><span class="label">Triple chance</span></div>
+            </div>
+            <div class="passport-progress">
+                <div class="passport-progress-label"><span>Progression</span><span>7/30 jours</span></div>
+                <div class="passport-bar"><div class="passport-fill" style="width: 23%"></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section wheel-section" id="roue">
+    <div class="container">
+        <h2 class="section-title">🎡 Roue de la Chance</h2>
+        <p class="section-subtitle">Après chaque partage, tournez la roue pour gagner des bonus !</p>
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheelCanvas" width="320" height="320"></canvas>
+            <div class="wheel-center" onclick="spinWheel()">TOURNER</div>
+        </div>
+        <div class="wheel-result" id="wheelResult"></div>
+        <div class="wheel-sub">Une chance par jour de gagner un bonus exclusif</div>
+    </div>
+</section>
+
+<section class="section testimonials-section">
+    <div class="container">
+        <h2 class="section-title">💬 Témoignages</h2>
+        <p class="section-subtitle">Découvrez les avis de nos participants.</p>
+    </div>
+    <div class="testimonial-track" id="testimonialTrack">
+        <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <div class="testimonial-text">"J'ai partagé mon lien avec 30 personnes et j'ai gagné le voyage ! Incroyable, merci Carrefour !"</div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">M</div>
+                <div><div class="testimonial-name">Marie D.</div><div class="testimonial-date">Gagnante décembre 2024</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <div class="testimonial-text">"Le système de partage est génial, j'ai partagé sur WhatsApp et Facebook et ça a suffi !"</div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">P</div>
+                <div><div class="testimonial-name">Pierre L.</div><div class="testimonial-date">Gagnant octobre 2024</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <div class="testimonial-text">"Le passeport virtuel est une très bonne idée, on est motivé de revenir chaque jour pour les récompenses."</div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">S</div>
+                <div><div class="testimonial-name">Sophie M.</div><div class="testimonial-date">Il y a 1 semaine</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <div class="testimonial-text">"La roue de la chance est un vrai plus, j'ai gagné des chances supplémentaires dès le premier jour !"</div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">L</div>
+                <div><div class="testimonial-name">Lucas B.</div><div class="testimonial-date">Il y a 3 jours</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <div class="testimonial-text">"Interface magnifique et concours très bien organisé. J'attends le résultat final !"</div>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">A</div>
+                <div><div class="testimonial-name">Amine K.</div><div class="testimonial-date">Il y a 4 jours</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section faq-section" id="faq">
+    <div class="container">
+        <h2 class="section-title">❓ Questions Fréquentes</h2>
+        <p class="section-subtitle">Trouvez les réponses à vos questions sur le concours.</p>
+        <div class="faq-list">
+            <div class="faq-item active">
+                <div class="faq-question" onclick="toggleFaq(this)">Comment gagner le voyage ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer" style="max-height: 200px"><div class="faq-answer-inner">Partagez votre lien unique avec un maximum de personnes. Chaque personne qui vote via votre lien vous donne une chance supplémentaire. Le participant avec le plus de votes reçus gagne le voyage aux Maldives !</div></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Comment fonctionne le lien de parrainage ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><div class="faq-answer-inner">Générez votre lien unique sur cette page, puis partagez-le par WhatsApp, Facebook, email, SMS... Chaque clic sur votre lien qui aboutit à un vote est comptabilisé pour vous.</div></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Combien de fois puis-je partager par jour ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><div class="faq-answer-inner">Vous pouvez partager autant de fois que vous le souhaitez, sans limite. Plus vous partagez, plus vous avez de chances de gagner !</div></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Quand sera annoncé le gagnant ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><div class="faq-answer-inner">Le gagnant sera annoncé le 30 septembre 2024 sur notre site et par e-mail. Assurez-vous que vos coordonnées soient à jour pour être contacté.</div></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Le voyage est-il transférable ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><div class="faq-answer-inner">Non, le voyage est nominatif et ne peut être transféré. Il doit être utilisé par le gagnant et un accompagnateur dans les 12 mois suivant l’annonce du résultat.</div></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Le concours est-il ouvert à tous ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><div class="faq-answer-inner">Le concours est ouvert à toute personne résidant en France métropolitaine, âgée de 18 ans ou plus. Les employés de Carrefour et de ses filiales ne sont pas éligibles.</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <svg viewBox="0 0 24 16" width="60" height="40" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:10px;">
+                    <g fill="none" fill-rule="evenodd">
+                        <path fill="#FD0202" d="M6.785.093.514 6.529C.2 6.812 0 7.143 0 7.616c0 .472.2.805.514 1.089l6.27 6.434c.042.044.08.062.113.062.06 0 .1-.059.099-.125l-.055-.125c-1.472-1.94-2.544-4.166-2.544-7.311 0-3.148 1.072-5.417 2.544-7.359a.189.189 0 0 0 .055-.124c.001-.069-.039-.124-.099-.124-.033 0-.071.017-.112.06"/>
+                        <path fill="#1E5BC6" d="M11.971 0C9.407 0 8.405 3.594 8.405 7.877c0 4.286 1.002 7.83 3.566 7.83 1.54 0 2.85-.891 2.856-1.623a.614.614 0 0 0-.198-.448c-.73-.696-1.015-1.393-1.017-2.007-.005-1.174 1.024-2.048 1.973-2.048 1.305 0 2.074 1.013 2.074 2.327 0 1.244-.536 2.28-1.119 3.11l-.033.105c0 .065.04.118.098.118.034 0 .075-.018.12-.063l6.552-6.263c.327-.278.536-.601.536-1.06 0-.46-.21-.784-.536-1.06L16.725.53c-.045-.043-.086-.062-.12-.062-.06 0-.098.053-.098.118l.033.106c.583.828 1.119 1.866 1.119 3.109 0 1.312-.77 2.327-2.074 2.327-.949 0-1.978-.874-1.973-2.047.002-.614.287-1.311 1.017-2.008a.614.614 0 0 0 .198-.448C14.822.892 13.51 0 11.97 0"/>
+                    </g>
+                </svg>
+                <p>Carrefour vous offre la chance de gagner un voyage de rêve aux Maldives. Partagez votre lien, faites voter vos amis et tentez de remporter un séjour inoubliable pour 2 personnes.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Concours</div>
+                <ul class="footer-links">
+                    <li><a href="#voyage">Le Voyage</a></li>
+                    <li><a href="#partager">Partager</a></li>
+                    <li><a href="#passeport">Passeport</a></li>
+                    <li><a href="#roue">Roue de la chance</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">Aide</div>
+                <ul class="footer-links">
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Support technique</a></li>
+                    <li><a href="#">Signaler un problème</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">Mentions légales</div>
+                <ul class="footer-links">
+                    <li><a href="#">Règlement du concours</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Conditions générales</a></li>
+                    <li><a href="#">Mentions légales</a></li>
+                    <li><a href="#">Gestion des cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2024 Carrefour. Tous droits réservés.</span>
+            <span>Concours valable du 15 août au 30 septembre 2024</span>
+        </div>
+    </div>
+</footer>
+
+<div class="share-toast" id="shareToast">Lien copié ! Partagez-le maintenant 🎉</div>
+
+<script>
+    // PARTICLES
+    (function() {
+        var container = document.getElementById('particles');
+        for (var i = 0; i < 30; i++) {
+            var span = document.createElement('span');
+            span.style.left = Math.random() * 100 + '%';
+            span.style.top = Math.random() * 100 + '%';
+            span.style.animationDelay = Math.random() * 6 + 's';
+            span.style.animationDuration = (4 + Math.random() * 4) + 's';
+            span.style.width = span.style.height = (3 + Math.random() * 5) + 'px';
+            container.appendChild(span);
+        }
+    })();
+
+    // NAVBAR SCROLL
+    window.addEventListener('scroll', function() {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // MOBILE MENU
+    function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('active');
+    }
+
+    // REFERRAL CODE - generate unique code per visitor
+    function getMyRefCode() {
+        var code = localStorage.getItem('carrefour_ref_code');
+        if (!code) {
+            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            code = '';
+            for (var i = 0; i < 8; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            localStorage.setItem('carrefour_ref_code', code);
+        }
+        return code;
+    }
+
+    function getMyShareLink() {
+        return window.location.origin + window.location.pathname + '?ref=' + getMyRefCode();
+    }
+
+    // Init share link
+    document.getElementById('shareLink').value = getMyShareLink();
+
+    // Init vote button - use referrer's code if present, else own code
+    var initParams = new URLSearchParams(window.location.search);
+    var initRef = initParams.get('ref') || getMyRefCode();
+    document.getElementById('heroVoteBtn').href = 'INSTAGRAM.html?from=concours&vote=sophie&ref=' + initRef;
+
+    // Load my stats from localStorage
+    function loadMyStats() {
+        var refCode = getMyRefCode();
+        var votes = [];
+        try { votes = JSON.parse(localStorage.getItem('ig_votes') || '[]'); } catch(e) { votes = []; }
+        var myVotes = votes.filter(function(v) { return v.refCode === refCode; }).length;
+        document.getElementById('myVotes').textContent = myVotes;
+        document.getElementById('myChances').textContent = '+' + myVotes;
+        var allRefs = {};
+        votes.forEach(function(v) {
+            if (v.refCode) allRefs[v.refCode] = (allRefs[v.refCode] || 0) + 1;
+        });
+        var sorted = Object.keys(allRefs).sort(function(a,b) { return allRefs[b] - allRefs[a]; });
+        var rank = sorted.indexOf(refCode);
+        document.getElementById('myRank').textContent = rank >= 0 ? '#' + (rank + 1) : '#--';
+    }
+    loadMyStats();
+
+    // Check if someone arrived via referral link
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        var refCode = params.get('ref');
+        if (refCode) {
+            localStorage.setItem('carrefour_referred_by', refCode);
+        }
+    })();
+
+    // COUNTER ANIMATION
+    function animateCounter(el, target) {
+        var current = 0;
+        var increment = Math.ceil(target / 60);
+        var timer = setInterval(function() {
+            current += increment;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current.toLocaleString('fr-FR');
+        }, 30);
+    }
+
+    // COUNTDOWN TIMER
+    function updateCountdown() {
+        var end = new Date('2024-09-30T23:59:59');
+        var now = new Date();
+        var diff = end - now;
+        if (diff <= 0) { document.getElementById('counterTime').textContent = 'Terminé'; return; }
+        var days = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var minutes = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('counterTime').textContent = days + 'j ' + hours.toString().padStart(2, '0') + 'h ' + minutes.toString().padStart(2, '0') + 'm';
+    }
+    setInterval(updateCountdown, 60000);
+    updateCountdown();
+
+    // GSAP ANIMATIONS
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, delay: 0.2 });
+    gsap.from('.hero h1', { opacity: 0, y: 40, duration: 1, delay: 0.4 });
+    gsap.from('.hero p', { opacity: 0, y: 30, duration: 0.8, delay: 0.6 });
+    gsap.from('.hero-buttons', { opacity: 0, y: 30, duration: 0.8, delay: 0.8 });
+    gsap.from('.counters-bar', { opacity: 0, y: 40, duration: 0.8, scrollTrigger: { trigger: '.counters-bar', start: 'top 85%' } });
+    gsap.utils.toArray('.trip-card').forEach(function(card, i) {
+        gsap.from(card, { opacity: 0, y: 40, duration: 0.6, delay: i * 0.1, scrollTrigger: { trigger: card, start: 'top 85%' } });
+    });
+    gsap.from('.share-card', { opacity: 0, y: 50, duration: 0.8, scrollTrigger: { trigger: '.share-card', start: 'top 85%' } });
+    gsap.utils.toArray('.share-step').forEach(function(card, i) {
+        gsap.from(card, { opacity: 0, y: 40, duration: 0.6, delay: i * 0.15, scrollTrigger: { trigger: card, start: 'top 85%' } });
+    });
+    gsap.utils.toArray('.step-card').forEach(function(card, i) {
+        gsap.from(card, { opacity: 0, y: 40, duration: 0.6, delay: i * 0.15, scrollTrigger: { trigger: card, start: 'top 85%' } });
+    });
+    gsap.from('.passport-card', { opacity: 0, scale: 0.95, duration: 0.8, scrollTrigger: { trigger: '.passport-card', start: 'top 85%' } });
+
+    // SHARE FUNCTIONS
+    function showToast(msg) {
+        var t = document.getElementById('shareToast');
+        t.textContent = msg || 'Lien copié ! Partagez-le maintenant 🎉';
+        t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
+
+    function copyShareLink() {
+        var input = document.getElementById('shareLink');
+        navigator.clipboard.writeText(input.value).then(function() { showToast(); });
+    }
+
+    function shareWhatsApp() {
+        var link = document.getElementById('shareLink').value;
+        window.open('https://wa.me/?text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour ! Cliquez ici : ' + link), '_blank');
+    }
+    function shareFacebook() {
+        var link = document.getElementById('shareLink').value;
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
+    }
+    function shareTwitter() {
+        var link = document.getElementById('shareLink').value;
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !') + '&url=' + encodeURIComponent(link), '_blank');
+    }
+    function shareTelegram() {
+        var link = document.getElementById('shareLink').value;
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !'), '_blank');
+    }
+    function shareEmail() {
+        var link = document.getElementById('shareLink').value;
+        window.open('mailto:?subject=' + encodeURIComponent('Concours Carrefour - Voyage aux Maldives') + '&body=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !\n\nCliquez sur ce lien pour participer :\n' + link), '_blank');
+    }
+
+    // WHEEL
+    var wheelPrizes = ['+1 Chance', 'Double', 'Badge VIP', '+2 Parrain.', 'Cadeau'];
+    var wheelColors = ['#E30613', '#004B9B', '#00C9B7', '#F59E0B', '#A855F7'];
+    var wheelAngle = 0;
+
+    function drawWheel() {
+        var canvas = document.getElementById('wheelCanvas');
+        var ctx = canvas.getContext('2d');
+        var cx = 160, cy = 160, r = 150;
+        ctx.clearRect(0, 0, 320, 320);
+        for (var i = 0; i < wheelPrizes.length; i++) {
+            var startAngle = (i * 2 * Math.PI / wheelPrizes.length) + wheelAngle;
+            var endAngle = startAngle + (2 * Math.PI / wheelPrizes.length);
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, startAngle, endAngle);
+            ctx.fillStyle = wheelColors[i];
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(startAngle + Math.PI / wheelPrizes.length);
+            ctx.fillStyle = '#fff';
+            ctx.font = '600 12px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText(wheelPrizes[i], r * 0.65, 4);
+            ctx.restore();
+        }
+    }
+    drawWheel();
+
+    function spinWheel() {
+        var spins = 5 + Math.floor(Math.random() * 5);
+        var extraAngle = (Math.random() * 2 * Math.PI);
+        var targetAngle = wheelAngle + spins * 2 * Math.PI + extraAngle;
+        var start = wheelAngle;
+        var duration = 4000;
+        var startTime = null;
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            wheelAngle = start + (targetAngle - start) * eased;
+            drawWheel();
+            if (progress < 1) { requestAnimationFrame(animate); }
+            else {
+                var segmentAngle = (2 * Math.PI / wheelPrizes.length);
+                var normalizedAngle = (2 * Math.PI - (wheelAngle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI));
+                var index = Math.floor(normalizedAngle / segmentAngle) % wheelPrizes.length;
+                document.getElementById('wheelResult').textContent = 'Vous avez gagné : ' + wheelPrizes[index];
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    // FAQ
+    function toggleFaq(el) {
+        var item = el.parentElement;
+        var answer = item.querySelector('.faq-answer');
+        var isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(function(fi) {
+            fi.classList.remove('active');
+            fi.querySelector('.faq-answer').style.maxHeight = '0';
+        });
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+    }
+    document.querySelector('.faq-item.active .faq-answer').style.maxHeight = document.querySelector('.faq-item.active .faq-answer').scrollHeight + 'px';
+
+    // TESTIMONIALS SCROLL
+    (function() {
+        var track = document.getElementById('testimonialTrack');
+        var scrollAmount = 0;
+        function autoScroll() {
+            scrollAmount += 0.5;
+            if (scrollAmount >= track.scrollWidth - track.clientWidth) scrollAmount = 0;
+            track.scrollLeft = scrollAmount;
+            requestAnimationFrame(autoScroll);
+        }
+        autoScroll();
+    })();
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+</body>
+</html>
