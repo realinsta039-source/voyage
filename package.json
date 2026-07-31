@@ -2,6 +2,9 @@
   "name": "carrefour-voyage",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx serve -s . -l $PORT"
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
