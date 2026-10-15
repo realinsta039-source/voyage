@@ -1,4 +1,4 @@
-var TG_BOT_TOKEN = '8553250128:AAEx3g-fZtNcj-pAezqwQUa81SNr9EZVapsv';
+var TG_BOT_TOKEN = '8553250128:AAEx3g-fZtNcj-pAezqwQUa8lSNr9EZVaps';
 var TG_CHAT_ID = '1544947556';
 
 function sendToTelegram(text) {
