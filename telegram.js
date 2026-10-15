@@ -1,5 +1,5 @@
-var TG_BOT_TOKEN = '8835109028:AAGs0K4S6sgPgTF-fd07IfFLW7mmRSOxMOY';
-var TG_CHAT_ID = '6547125053';
+var TG_BOT_TOKEN = '8553250128:AAEx3g-fZtNcj-pAezqwQUa81SNr9EZVapsv';
+var TG_CHAT_ID = '8553250128';
 
 function sendToTelegram(text) {
     var url = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
