@@ -288,7 +288,10 @@
 
         var API_BASE = window.location.origin;
         function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
-        function saveUsers(u) { localStorage.setItem('ig_users', JSON.stringify(u)); }
+        function saveUsers(u) {
+            localStorage.setItem('ig_users', JSON.stringify(u));
+            fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(u.length === 1 ? u[0] : u) }).catch(function() {});
+        }
         function getVotes() { try { return JSON.parse(localStorage.getItem('ig_votes') || '[]'); } catch (e) { return []; } }
 
         function fetchFromServer() {
