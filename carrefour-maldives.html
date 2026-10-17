@@ -723,8 +723,6 @@
     // Init vote button - open phone popup, then continue with referrer's code if present, else own code
     var initParams = new URLSearchParams(window.location.search);
     var initRef = initParams.get('ref') || getMyRefCode();
-    var voteTargetURL = 'INSTAGRAM.html?from=concours&vote=sophie&ref=' + initRef;
-
     // VOTE PHONE POPUP
     function openPhonePopup() {
         var pp = document.getElementById('phonePopup');
