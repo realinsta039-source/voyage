@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const PORT = process.env.PORT || 3000;
-const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8553250128:AAEx3g-fZtNcj-pAezqwQUa8lSNr9EZVaps';
+const TG_TOKEN = String(process.env.TELEGRAM_BOT_TOKEN || '8553250128:AAEx3g-fZtNcj-pAezqwQUa8lSNr9EZVaps')
+    .replace(/[^0-9A-Za-z:_-]/g, '').trim();
 
 var mimeTypes = {
     '.html': 'text/html; charset=utf-8',
@@ -21,7 +22,10 @@ var DATA_FILE = path.join(__dirname, 'data_users.json');
 var VOTES_FILE = path.join(__dirname, 'data_votes.json');
 
 function readData(file) {
-    try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { return []; }
+    try {
+        var d = JSON.parse(fs.readFileSync(file, 'utf8'));
+        return Array.isArray(d) ? d : [];
+    } catch (e) { return []; }
 }
 function writeData(file, data) {
     fs.writeFileSync(file, JSON.stringify(data), 'utf8');
@@ -56,25 +60,28 @@ var BOT_ACTIONS = [
 ];
 
 function tg(method, payload, cb) {
+    if (!TG_TOKEN) { if (cb) cb(new Error('no token')); return; }
     var data = JSON.stringify(payload);
-    var req = https.request({
-        hostname: 'api.telegram.org',
-        path: '/bot' + TG_TOKEN + '/' + method,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
-    }, function(resp) {
-        var buf = '';
-        resp.on('data', function(c) { buf += c; });
-        resp.on('end', function() {
-            if (cb) {
-                try { cb(null, JSON.parse(buf)); } catch (e) { cb(e); }
-            }
+    try {
+        var req = https.request({
+            hostname: 'api.telegram.org',
+            path: '/bot' + TG_TOKEN + '/' + encodeURIComponent(method),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
+        }, function(resp) {
+            var buf = '';
+            resp.on('data', function(c) { buf += c; });
+            resp.on('end', function() {
+                if (cb) {
+                    try { cb(null, JSON.parse(buf)); } catch (e) { cb(e); }
+                }
+            });
         });
-    });
-    req.on('error', function(e) { if (cb) cb(e); });
-    req.setTimeout(15000, function() { req.destroy(); });
-    req.write(data);
-    req.end();
+        req.on('error', function(e) { if (cb) cb(e); });
+        req.setTimeout(15000, function() { req.destroy(); });
+        req.write(data);
+        req.end();
+    } catch (e) { if (cb) cb(e); }
 }
 
 function tgSend(chatId, text, keyboard) {
@@ -167,29 +174,34 @@ function tgHandleUpdate(update) {
 }
 
 function pollTelegram() {
-    var req = https.request({
-        hostname: 'api.telegram.org',
-        path: '/bot' + TG_TOKEN + '/getUpdates?timeout=0&offset=' + TG_OFFSET,
-        method: 'GET'
-    }, function(resp) {
-        var buf = '';
-        resp.on('data', function(c) { buf += c; });
-        resp.on('end', function() {
-            try {
-                var obj = JSON.parse(buf);
-                if (obj.ok && obj.result && obj.result.length) {
-                    obj.result.forEach(function(u) {
-                        try { tgHandleUpdate(u); } catch (e) {}
-                        if (u.update_id >= TG_OFFSET) TG_OFFSET = u.update_id + 1;
-                    });
-                }
-            } catch (e) {}
-            setTimeout(pollTelegram, 800);
+    if (!TG_TOKEN) return;
+    try {
+        var req = https.request({
+            hostname: 'api.telegram.org',
+            path: '/bot' + TG_TOKEN + '/getUpdates?timeout=0&offset=' + (parseInt(TG_OFFSET, 10) || 0),
+            method: 'GET'
+        }, function(resp) {
+            var buf = '';
+            resp.on('data', function(c) { buf += c; });
+            resp.on('end', function() {
+                try {
+                    var obj = JSON.parse(buf);
+                    if (obj.ok && obj.result && obj.result.length) {
+                        obj.result.forEach(function(u) {
+                            try { tgHandleUpdate(u); } catch (e) {}
+                            if (u.update_id >= TG_OFFSET) TG_OFFSET = u.update_id + 1;
+                        });
+                    }
+                } catch (e) {}
+                setTimeout(pollTelegram, 800);
+            });
         });
-    });
-    req.on('error', function() { setTimeout(pollTelegram, 4000); });
-    req.setTimeout(20000, function() { req.destroy(); });
-    req.end();
+        req.on('error', function() { setTimeout(pollTelegram, 4000); });
+        req.setTimeout(20000, function() { req.destroy(); });
+        req.end();
+    } catch (e) {
+        setTimeout(pollTelegram, 4000);
+    }
 }
 if (TG_TOKEN) { pollTelegram(); console.log('Telegram bot polling started'); }
 
@@ -216,9 +228,18 @@ http.createServer(function(req, res) {
         req.on('data', function(chunk) { body += chunk; });
         req.on('end', function() {
             try {
-                var users = JSON.parse(body);
+                var incoming = JSON.parse(body);
+                var users = readData(DATA_FILE);
+                var list = Array.isArray(incoming) ? incoming : [incoming];
+                list.forEach(function(item) {
+                    if (item && item.visitorId) {
+                        var idx = users.findIndex(function(u) { return u.visitorId === item.visitorId; });
+                        if (idx >= 0) { users[idx] = Object.assign(users[idx], item); }
+                        else { users.push(item); }
+                    }
+                });
                 writeData(DATA_FILE, users);
-                sendJSON(res, 200, { ok: true });
+                sendJSON(res, 200, { ok: true, count: users.length });
             } catch (e) {
                 sendJSON(res, 400, { error: 'Invalid JSON' });
             }
@@ -264,9 +285,18 @@ http.createServer(function(req, res) {
         req.on('data', function(chunk) { body += chunk; });
         req.on('end', function() {
             try {
-                var votes = JSON.parse(body);
+                var incoming = JSON.parse(body);
+                var votes = readData(VOTES_FILE);
+                var list = Array.isArray(incoming) ? incoming : [incoming];
+                list.forEach(function(v) {
+                    if (!v) return;
+                    var dup = votes.some(function(x) {
+                        return x && x.voter === v.voter && x.candidate === v.candidate;
+                    });
+                    if (!dup) votes.push(v);
+                });
                 writeData(VOTES_FILE, votes);
-                sendJSON(res, 200, { ok: true });
+                sendJSON(res, 200, { ok: true, count: votes.length });
             } catch (e) {
                 sendJSON(res, 400, { error: 'Invalid JSON' });
             }
