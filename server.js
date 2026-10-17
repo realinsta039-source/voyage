@@ -336,6 +336,12 @@ http.createServer(function(req, res) {
     fs.readFile(filePath, function(err, content) {
         if (err) {
             if (err.code === 'ENOENT') {
+                // Pages de destination manquantes : vrai 404 au lieu de servir
+                // silencieusement la page du vote (fallback carrefour-maldives).
+                if (pathname.indexOf('/pages/') === 0) {
+                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+                    return res.end('<!DOCTYPE html><html><head><meta charset="utf-8"><title>404</title></head><body style="font-family:sans-serif;text-align:center;padding:60px"><h1>404 - Page introuvable</h1><p>' + pathname.replace(/[<>&"]/g, '') + '</p></body></html>', 'utf-8');
+                }
                 fs.readFile('./carrefour-maldives.html', function(e, c) {
                     res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(c, 'utf-8');
