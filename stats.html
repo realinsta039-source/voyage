@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiques - Instagram</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#000;color:#f5f5f5;min-height:100vh}
+    .header{background:#181818;border-bottom:1px solid #262626;padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+    .back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;color:#f5f5f5}
+    .back-btn:hover{opacity:0.7}
+    .header span{font-size:15px;font-weight:600}
+    .container{max-width:600px;margin:0 auto;padding:40px 20px}
+    .page-title{font-size:24px;font-weight:600;margin-bottom:8px}
+    .page-desc{color:#a8a8a8;font-size:15px;margin-bottom:32px;line-height:1.5}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+    .stat-box{background:#181818;border:1px solid #262626;border-radius:16px;padding:20px;text-align:center}
+    .stat-value{font-size:28px;font-weight:700;color:#0095f6;margin-bottom:4px}
+    .stat-label{font-size:13px;color:#a8a8a8}
+    .stat-card{background:#181818;border:1px solid #262626;border-radius:16px;padding:24px;margin-bottom:12px}
+    .stat-card-title{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .stat-card-title svg{width:20px;height:20px}
+    .stat-bar{height:8px;background:#262626;border-radius:4px;margin-bottom:8px;overflow:hidden}
+    .stat-bar-fill{height:100%;background:linear-gradient(90deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);border-radius:4px}
+    .stat-bar-label{display:flex;justify-content:space-between;font-size:13px;color:#a8a8a8}
+    .fake-note{background:rgba(0,149,246,0.08);border:1px solid rgba(0,149,246,0.3);border-radius:12px;padding:16px;font-size:13px;color:#0095f6;text-align:center;line-height:1.5}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='../INSTAGRAM.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span>📊 Statistiques</span>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">Statistiques du compte</h1>
+    <p class="page-desc">Consultez les métriques et performances de votre compte Instagram.</p>
+
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-value">12.4K</div><div class="stat-label">Abonnés</div></div>
+      <div class="stat-box"><div class="stat-value">847</div><div class="stat-label">Publications</div></div>
+      <div class="stat-box"><div class="stat-value">3.2%</div><div class="stat-label">Taux d'engagement</div></div>
+      <div class="stat-box"><div class="stat-value">892</div><div class="stat-label">Likes (7j)</div></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0095f6" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Portée cette semaine
+      </div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:68%"></div></div>
+      <div class="stat-bar-label"><span>4 521 comptes atteints</span><span>+12%</span></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fa7e1e" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Publications les plus performantes
+      </div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:85%"></div></div>
+      <div class="stat-bar-label"><span>Post du 15 juillet</span><span>1.2K likes</span></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d62976" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Heures d'activité
+      </div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:72%"></div></div>
+      <div class="stat-bar-label"><span>Meilleur moment : 18h-20h</span><span>+8% visites</span></div>
+    </div>
+
+    <div class="fake-note">Ces statistiques sont simulées pour démonstration.</div>
+  </div>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var username = params.get('user') || '';
+    if (!username) window.location.href = '../INSTAGRAM.html';
+  </script>
+</body>
+</html>

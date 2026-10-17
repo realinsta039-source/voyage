@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - Instagram</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#000;color:#f5f5f5;min-height:100vh}
+    .header{background:#181818;border-bottom:1px solid #262626;padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+    .back-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;color:#f5f5f5}
+    .back-btn:hover{opacity:0.7}
+    .header span{font-size:15px;font-weight:600}
+    .container{max-width:600px;margin:0 auto;padding:20px}
+    .page-title{font-size:24px;font-weight:600;margin-bottom:24px}
+    .msg-list{display:flex;flex-direction:column;gap:2px}
+    .msg-item{background:#181818;border:1px solid #262626;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background 0.2s}
+    .msg-item:hover{background:rgba(255,255,255,0.03)}
+    .msg-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
+    .msg-avatar.blue{background:linear-gradient(135deg,#0095f6,#1877f2)}
+    .msg-avatar.green{background:linear-gradient(135deg,#25d366,#128c7e)}
+    .msg-avatar.purple{background:linear-gradient(135deg,#962fbf,#4f5bd5)}
+    .msg-info{flex:1;min-width:0}
+    .msg-name{font-size:14px;font-weight:600;margin-bottom:2px}
+    .msg-preview{font-size:13px;color:#a8a8a8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .msg-time{font-size:12px;color:#737373;flex-shrink:0}
+    .msg-unread{width:10px;height:10px;border-radius:50%;background:#0095f6;flex-shrink:0}
+    .fake-note{background:rgba(0,149,246,0.08);border:1px solid rgba(0,149,246,0.3);border-radius:12px;padding:16px;font-size:13px;color:#0095f6;text-align:center;line-height:1.5;margin-top:24px}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='../INSTAGRAM.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span>💬 Messages</span>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">Messages directs</h1>
+
+    <div class="msg-list">
+      <div class="msg-item">
+        <div class="msg-avatar">S</div>
+        <div class="msg-info"><div class="msg-name">sophie_travel</div><div class="msg-preview">Salut ! Tu as vu les photos ?</div></div>
+        <div class="msg-time">2m</div>
+        <div class="msg-unread"></div>
+      </div>
+      <div class="msg-item">
+        <div class="msg-avatar blue">L</div>
+        <div class="msg-info"><div class="msg-name">luc_photo</div><div class="msg-preview">Super cliché ! 📸</div></div>
+        <div class="msg-time">15m</div>
+        <div class="msg-unread"></div>
+      </div>
+      <div class="msg-item">
+        <div class="msg-avatar green">M</div>
+        <div class="msg-info"><div class="msg-name">marie_food</div><div class="msg-preview">La recette est incroyable</div></div>
+        <div class="msg-time">1h</div>
+      </div>
+      <div class="msg-item">
+        <div class="msg-avatar purple">T</div>
+        <div class="msg-info"><div class="msg-name">thomas_fit</div><div class="msg-preview">On se retrouve demain ?</div></div>
+        <div class="msg-time">3h</div>
+      </div>
+      <div class="msg-item">
+        <div class="msg-avatar">A</div>
+        <div class="msg-info"><div class="msg-name">alice_art</div><div class="msg-preview">Merci pour le partage !</div></div>
+        <div class="msg-time">5h</div>
+      </div>
+    </div>
+
+    <div class="fake-note">Ces messages sont simulés pour démonstration.</div>
+  </div>
+</body>
+</html>
